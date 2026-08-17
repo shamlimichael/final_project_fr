@@ -4,13 +4,15 @@ const mongoose = require('mongoose');
 
 const app = express();
 
-mongoose.connect(process.env.API_KEY);
+
+mongoose.connect(process.env.API_KEY)
+    .then((result) => app.listen(3000))
+    .catch((err) => console.log(err));
 
 app.set('view engine', 'ejs');
 
-app.listen(3000);
-
 app.use(express.static('public'));
+app.use(express.json());
 
 app.get('/', (req, res) => {
     res.render('main');
