@@ -1,11 +1,16 @@
 const express = require('express');
+require('dotenv').config();
+const mongoose = require('mongoose');
+
 const app = express();
 
-app.use(express.static('public'));
+mongoose.connect(process.env.API_KEY);
 
 app.set('view engine', 'ejs');
 
 app.listen(3000);
+
+app.use(express.static('public'));
 
 app.get('/', (req, res) => {
     res.render('main');
