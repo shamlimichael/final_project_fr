@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 
 const app = express();
 
+
 mongoose.connect(process.env.API_KEY)
     .then((result) => app.listen(3000))
     .catch((err) => console.log(err));
@@ -11,6 +12,7 @@ mongoose.connect(process.env.API_KEY)
 app.set('view engine', 'ejs');
 
 app.use(express.static('public'));
+app.use(express.json());
 
 app.get('/', (req, res) => {
     res.render('main');

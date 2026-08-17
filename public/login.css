@@ -1,18 +1,90 @@
 body {
-    background-color: rgb(26, 26, 60);
+    background-image: linear-gradient(to bottom, rgb(54, 85, 178), rgb(10, 8, 46));
     display: flex; 
     justify-content: center; 
     align-items: center; 
-    height: 100vh; 
+    height: 100vh;
     margin: 0; 
-}
-
-#title {
-    color: rgb(181, 190, 197);
-    font-size: 7vh;
-    font-family: 'Mulish', sans-serif;
+    font-family: 'Inter', sans-serif;
 }
 
 #main_block {
     text-align: center; 
+    background-color: rgb(23, 23, 23);
+    width: 90vw;
+    max-width: 30rem;
+    height: 50rem;
+    padding: 3rem 4rem; 
+    border-radius: 1rem; 
+    box-shadow: 0 0.6rem 1.5rem rgba(0, 0, 0, 0.5); 
+}
+
+#title {
+    color: rgb(157, 187, 210);
+    font-size: 5vh; 
+    font-family: 'Mulish', sans-serif;
+    margin-top: 0; 
+    margin-bottom: 6rem; 
+}
+
+input[type="text"], 
+input[type="password"] {
+    width: 100%; 
+    padding: 0.8rem;
+    margin-bottom: 1.25rem; 
+    border: 0.1rem solid;
+    border-radius: 0.8rem; 
+    background-color: rgb(23, 23, 23);
+    border-color: rgb(255, 255, 255);
+    font-size: 1rem; 
+    box-sizing: border-box; 
+    font-family: 'Mulish', sans-serif;
+    color: rgb(255, 255, 255)
+}
+
+#log_in_button {
+    width: 100%; 
+    padding: 0.8rem;
+    margin-top: 2rem; 
+    background-color: rgb(41, 66, 85);
+    color: rgb(230, 234, 237);
+    border: none;
+    border-radius: 1.1rem; 
+    font-size: 1.4rem; 
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: 'Mulish', sans-serif;
+}
+
+button:hover {
+    background-color: rgb(75, 122, 157); 
+}
+
+#error_log_in {
+    color: rgb(255, 85, 85); 
+    font-size: 0.9rem;
+    margin-top: -0.5rem;    
+    margin-bottom: 0.5rem;
+    min-height: 1.2rem;
+    font-family: 'Mulish', sans-serif;
+}
+
+#sign_up {
+    width: 100%; 
+    padding: 0.8rem;
+    margin-top: 2rem; 
+    border: 0.1rem solid rgb(255, 255, 255);
+    border-radius: 1.1rem; 
+    background-color: rgb(23, 23, 23);
+    color: rgb(230, 234, 237);
+    font-size: 1.4rem; 
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-family: 'Mulish', sans-serif;
+}
+
+#sign_up:hover {
+    background-color: rgb(46, 46, 46); 
 }

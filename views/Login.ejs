@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Tarde-In login</title>
+    <title>Trade-In Login</title>
     <link rel="stylesheet" href="login.css">
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Stack+Sans+Notch:wght@200..700&display=swap');
@@ -10,14 +10,17 @@
 
 <body>
     <div id="main_block">
-        <h1 id="title">Tarde-In</h1><br>
+        <h1 id="title">Trade-In</h1>
     
-        <input type="text" id="username" name="username" placeholder="username"><br><br>
-        
-        <input type="text" id="password" name="password" placeholder="password"><br><br>
-        
-        <button>log in</button>
-    </div>
-</body>
+        <input type="text" id="username" name="username" placeholder="username / email">
+        <input type="password" id="password" name="password" placeholder="password">
 
+        <p id = error_log_in></p> 
+
+        <button id = "log_in_button">Log in</button>
+
+        <button id = "sign_up">Sign up</button>
+    </div>
+    <script src="login.js"></script>
+</body>
 </html>
