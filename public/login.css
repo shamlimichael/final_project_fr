@@ -1,5 +1,3 @@
-
-
 body {
     background-color: rgb(26, 26, 60);
     display: flex; 
@@ -12,7 +10,7 @@ body {
 #title {
     color: rgb(181, 190, 197);
     font-size: 7vh;
-    font-family: 'Inter', sans-serif;
+    font-family: 'Mulish', sans-serif;
 }
 
 #main_block {
