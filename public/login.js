@@ -9,3 +9,8 @@ document.getElementById("log_in_button").addEventListener('click', () => {
         errorElement.textContent = ""; 
     }
 });
+
+
+document.getElementById("sign_up").addEventListener('click', () => {
+    window.location.href = "signup"
+})
