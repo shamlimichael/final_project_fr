@@ -14,6 +14,7 @@ app.set('view engine', 'ejs');
 
 app.use(express.static('public'));
 app.use(express.json());
+app.use(express.urlencoded())
 
 app.get('/', (req, res) => {
     res.render('main');
@@ -29,4 +30,16 @@ app.get('/about', (req, res) => {
 
 app.get('/signup', (req, res) => {
     res.render('signup');
+});
+
+app.post('/', (req,res) => {
+    const user = new User(req.body);
+
+    user.save()
+        .then((result) => {
+            res.redirect('/');
+        })
+        .catch((err) => {
+            console.log(err);
+        });
 });
