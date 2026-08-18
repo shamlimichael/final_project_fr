@@ -52,21 +52,6 @@ select:focus {
     border-color: rgb(157, 187, 210);
 }
 
-select {
-    cursor: pointer;
-    appearance: none; 
-    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%22%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FFFFFF%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
-    background-repeat: no-repeat;
-    background-position: right 0.8rem center;
-    background-size: 0.65rem auto;
-    padding-right: 1.8rem;
-}
-
-option {
-    background-color: rgb(23, 23, 23);
-    color: rgb(255, 255, 255);
-}
-
 .section-label {
     color: rgb(181, 190, 197);
     font-family: 'Mulish', sans-serif;
@@ -75,21 +60,6 @@ option {
     margin-top: 0.2rem;
     margin-bottom: 0.6rem;
 }
-
-.birthday-container {
-    display: flex;
-    gap: 0.6rem;
-    margin-bottom: 1rem;
-}
-
-.birthday-container select,
-.birthday-container input {
-    margin-bottom: 0;
-}
-
-#month { flex: 1.8; }
-#day { flex: 1.2; }
-#year { flex: 1.5; }
 
 #error_log_in {
     color: rgb(255, 85, 85); 
