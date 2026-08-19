@@ -1,34 +1,37 @@
 body {
-    background-image: linear-gradient(to bottom, rgb(54, 85, 178), rgb(10, 8, 46));
+    background-color: rgb(23, 23, 23);
     display: flex; 
     justify-content: center; 
     align-items: center; 
     min-height: 100vh;
     margin: 0; 
     font-family: 'Inter', sans-serif;
-}
+    align-items: center;
+}   
 
 #main_block {
-    text-align: center; 
+    margin-left: 70rem;
     background-color: rgb(23, 23, 23);
     width: 50rem;
-    height: 40vw;
+    height: 45rem;
+    width: 90vw;
     max-width: 30rem;
     padding: 4rem 4rem; 
     border-radius: 1rem; 
-    box-shadow: 0 0.6rem 1.5rem rgba(0, 0, 0, 0.5); 
+    box-shadow: 0 0.6rem 1.5rem rgba(255, 255, 255, 0.5); 
     box-sizing: border-box;
+    border: 0.2rem solid rgb(147, 147, 147);
 }
 
+
 #title {
-    color: rgb(157, 187, 210);
+    color: rgb(76, 160, 128);
     font-size: 5vh; 
     font-family: 'Mulish', sans-serif;
     margin-top: 0; 
     margin-bottom: 2.5rem; 
 }
 
-/* Inputs, Number Box, and Dropdowns Styling */
 input[type="text"], 
 input[type="password"],
 input[type="number"],
@@ -36,20 +39,21 @@ select {
     width: 100%; 
     padding: 0.8rem;
     margin-bottom: 1.25rem; 
-    border: 0.1rem solid rgb(255, 255, 255);
+    border: 0.1rem solid rgb(147, 147, 147);;
     border-radius: 0.8rem; 
     background-color: rgb(23, 23, 23);
     font-size: 1rem; 
     box-sizing: border-box; 
     font-family: 'Mulish', sans-serif;
-    color: rgb(255, 255, 255);
+    color: rgb(147, 147, 147);
     outline: none;
     transition: border-color 0.3s ease;
+    box-sizing: border-box; 
 }
 
 input:focus, 
 select:focus {
-    border-color: rgb(157, 187, 210);
+    border-color: rgb(76, 160, 128);
 }
 
 .section-label {
@@ -72,11 +76,15 @@ select:focus {
     text-align: center;
 }
 
+#error_log_in:empty {
+    display: none;
+}
+
 #sign_up {
     width: 100%; 
     padding: 0.8rem;
     margin-top: 1rem; 
-    background-color: rgb(41, 66, 85);
+    background-color: rgb(61, 128, 102);
     color: rgb(230, 234, 237);
     border: none;
     border-radius: 1.1rem; 
@@ -88,5 +96,52 @@ select:focus {
 }
 
 #sign_up:hover {
-    background-color: rgb(54, 88, 113); 
+    background-color: rgb(76, 160, 128);
+}
+
+select {
+    cursor: pointer;
+    appearance: none; 
+    background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%22%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23FFFFFF%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.8rem center;
+    background-size: 0.65rem auto;
+    padding-right: 1.8rem;
+}
+
+option {
+    background-color: rgb(23, 23, 23);
+    color: rgb(255, 255, 255);
+}
+
+.section-label {
+    color: rgb(181, 190, 197);
+    font-family: 'Mulish', sans-serif;
+    font-size: 0.95rem;
+    text-align: left;
+    margin-top: 0.2rem;
+    margin-bottom: 0.6rem;
+}
+
+.birthday-container {
+    display: flex;
+    gap: 0.6rem;
+    margin-bottom: 1rem;
+}
+
+.birthday-container select,
+.birthday-container input {
+    margin-bottom: 0;
+}
+
+#month { flex: 1.8; }
+#day { flex: 1.2; }
+#year { flex: 1.5; }
+
+input:focus, 
+select:focus {
+    outline: none !important; 
+    box-shadow: none !important; 
+    
+    border-color: rgb(157, 187, 210); 
 }
