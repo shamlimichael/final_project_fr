@@ -12,7 +12,7 @@
     <div id="main_block">
         <h1 id="title">Trade-In</h1>
         
-        <form action="/" method="POST" id = "sign_up_form">
+        <form id="sign_up_form" action="/signup" method="POST">
             <input type="text" id="email" name="email" placeholder="email">
             <input type="text" id="username" name="username" placeholder="username">
             <input type="password" id="password" name="password" placeholder="password">
@@ -54,7 +54,9 @@
             <input type="number" id="year" name="year" placeholder="Year" min="1900" max="2026">
             </div>
 
-            <p id="error_log_in"></p> 
+            <p id="error_log_in">
+            <% if (err) { %><%= err %><% } %>
+            </p>
 
             <button id="sign_up">Sign up</button>
         </form>

@@ -29,7 +29,11 @@ document.getElementById("sign_up_form").addEventListener('submit', (event) => {
         errorElement.textContent = "user most be over 18";
         errorElement.style.display = "block";
     }
-    else {
+    else if((username.includes('@'))){
+        errorElement.textContent = "username cant include @";
+        errorElement.style.display = "block";
+    }
+    else{
         errorElement.textContent = "";
         errorElement.style.display = "none";
         document.getElementById("sign_up_form").submit();

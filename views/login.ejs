@@ -11,15 +11,19 @@
 <body>
     <div id="main_block">
         <h1 id="title">Trade-In</h1>
-    
-        <input type="text" id="username" name="username" placeholder="username / email">
-        <input type="password" id="password" name="password" placeholder="password">
+        <form id="log_in_form" action="/login" method="POST">
+            <input type="text" id="username" name="username" placeholder="username / email">
+            <input type="password" id="password" name="password" placeholder="password">
 
-        <p id = error_log_in></p> 
+            <% if(err){ %>
+            <p id = error_log_in><%= err %></p>
+            <% }  %>
 
-        <button id = "log_in_button">Log in</button>
 
-        <button id = "sign_up">Sign up</button>
+            <button id = "log_in_button">Log in</button>
+        </form>
+
+            <button id = "sign_up">Sign up</button> 
     </div>
     <script src="login.js"></script>
 </body>
