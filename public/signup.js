@@ -1,46 +1,37 @@
-document.getElementById("sign_up").addEventListener('click', (e) => {
+document.getElementById("sign_up_form").addEventListener('submit', (event) => {
+    event.preventDefault();
 
-    // Get input elements
-    const email = document.getElementById('email').value.trim();
-    const username = document.getElementById('username').value.trim();
-    const password = document.getElementById('password').value;
-    
-    // Get error display element
-    const errorElement = document.getElementById('error_log_in');
+    const email = document.getElementById("email").value.trim();
+    const password = document.getElementById("password").value;
+    const username = document.getElementById("username").value.trim();
+    const year = document.getElementById("year").value.trim();
+    const errorElement = document.getElementById("error_log_in");
 
-    // Basic Regex pattern for email validation
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    // 1. Check for empty fields
-    if (!email || !username || !password) {
+    if (!email || !password || !username) {
         errorElement.textContent = "Please fill in all fields.";
-        return;
-    }
-
-    // 2. Validate Email format
-    if (!emailPattern.test(email)) {
+        errorElement.style.display = "block";
+    } 
+    else if (!emailPattern.test(email)) {
         errorElement.textContent = "Please enter a valid email address.";
-        return;
+        errorElement.style.display = "block";
     }
-
-    // 3. Validate Username (at least 3 characters)
-    if (username.length < 3) {
-        errorElement.textContent = "Username must be at least 3 characters long.";
-        return;
-    }
-
-    // 4. Validate Password length (at least 6 characters)
-    if (password.length < 6) {
+    else if (password.length < 6) {
         errorElement.textContent = "Password must be at least 6 characters long.";
-        return;
+        errorElement.style.display = "block";
+    } 
+    else if (!password.includes("!") && !password.includes("@")) {
+        errorElement.textContent = "Password must include either '!' or '@'.";
+        errorElement.style.display = "block";
     }
-
-    // If all checks pass:
-    errorElement.textContent = ""; 
-    
-    // TODO: Send data to your server/backend here
-    console.log("Sign up successful!");
-    
-    // Example: Redirect to login or home page upon successful sign up
-    // window.location.href = "login.html";
+    else if(2026 - year < 18) {
+        errorElement.textContent = "user most be over 18";
+        errorElement.style.display = "block";
+    }
+    else {
+        errorElement.textContent = "";
+        errorElement.style.display = "none";
+        document.getElementById("sign_up_form").submit();
+    }
 });
