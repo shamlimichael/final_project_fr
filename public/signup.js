@@ -1,4 +1,4 @@
-document.getElementById("sign_up").addEventListener('click', (e) => {
+/*document.getElementById("sign_up").addEventListener('click', (e) => {
     // Prevent form submission if inside a form tag
     e.preventDefault();
 
@@ -68,4 +68,4 @@ document.getElementById("sign_up").addEventListener('click', (e) => {
     
     // Example: Redirect to login or home page upon successful sign up
     // window.location.href = "login.html";
-});
+}); */

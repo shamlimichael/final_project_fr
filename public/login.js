@@ -1,4 +1,4 @@
-document.getElementById("log_in_button").addEventListener('click', () => {
+/*document.getElementById("log_in_button").addEventListener('click', () => {
     const user = document.getElementById('username').value;
     const pass = document.getElementById('password').value;
     const errorElement = document.getElementById('error_log_in');
@@ -13,4 +13,4 @@ document.getElementById("log_in_button").addEventListener('click', () => {
 
 document.getElementById("sign_up").addEventListener('click', () => {
     window.location.href = "signup"
-})
+})*/
