@@ -22,7 +22,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/login', (req, res) => {
-    res.render('login');
+    res.render('login', {err: null});
 });
 
 app.get('/about', (req, res) => {
@@ -30,11 +30,20 @@ app.get('/about', (req, res) => {
 });
 
 app.get('/signup', (req, res) => {
-    res.render('signup');
+    res.render('signup', {err: null});
 });
 
 app.post('/signup', async (req,res) => {
     try{
+        let userCheck = await User.findOne({
+            $or: [
+                { username: req.body.username },
+                { email: req.body.email }
+            ]
+        });
+        if (userCheck){
+             return res.render('signup', {err: "username or email already in use!"});
+        }
         const salt = await bcrypt.genSalt();
         const hashPW = await bcrypt.hash(req.body.password, salt);
         req.body.password = hashPW;
@@ -44,5 +53,28 @@ app.post('/signup', async (req,res) => {
     }
     catch (err) {
         console.log('couldent save password', err);
+        res.status(500).send('Internal server error');
+    }
+});
+
+app.post('/login', async (req, res) => {
+    try{
+        let user = await User.findOne({
+            $or: [
+                { username: req.body.username },
+                { email: req.body.username }
+            ]
+        });
+        if (!user){
+            return res.render('login', {err: "username or email couldnt be found."});
+        }
+        if (await bcrypt.compare(req.body.password, user.password)){
+            res.redirect('/');
+        }else{
+            return res.render('login', {err: "incorrect password!"});
+        }
+    }catch(err) {
+        console.log('couldent login', err);
+        res.status(500).send('Internal server error');
     }
 });
