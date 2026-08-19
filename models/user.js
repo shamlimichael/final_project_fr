@@ -9,7 +9,7 @@ const userSchema = new Schema({
     inventory: [{
         coin: {type: mongoose.Schema.Types.ObjectId, ref: 'Coin', required: true},
         amount: {type: Number,required: true},
-        averageBuyPrice: {type: Number}
+        avgBuyPrice: {type: Number}
     }]      
 }, {timestamps: true});
 
