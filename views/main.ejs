@@ -3,9 +3,98 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Crypto Goats</title>
+    <link rel="stylesheet" href="main.css">
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Stack+Sans+Notch:wght@200..700&display=swap');
+    </style>    
 </head>
 <body>
-    <p>home page</p>
+    <header class="top_bar">
+        <div class="top_left">
+            <button class="menu_btn">
+                <img src="/resources/list.svg" alt="menu" class="menu_img">
+            </button>
+            <span class="logo">Crypto Goats</span>
+        </div>
+        <div class = "top_center">
+            <input type="text" class="search_input" placeholder="Search coins...">
+            <a href="#" class="nav_link">News</a>
+            <a href="#" class="nav_link">Brokers</a>
+            <a href="/about" class="nav_link">About us</a>
+        </div>
+        <div class="top_right">
+            <button class="settings_btn">
+                <img src="/resources/gear.svg" alt="settings" class="setting_img">
+            </button>
+            <div class="balance_display">
+                <span class="balance_label">Balance: $<%= user.balance %></span>
+            </div>
+            <button class="profile_btn">
+                <img src="https://ui-avatars.com/api/?name=<%= user.username %>&background=333&color=fff" alt="profile" class="pfp">
+            </button>
+        </div>
+    </header>
+    <nav class="sidebar">
+        <div class="upper_sidebar">
+            <button class="explore_btn sidebar_btn" data-target="explore_section">
+                <img src="/resources/chart-line.svg" alt="explore" class="explore_img">
+                <span class="upper_sidebar_icon">Explore</span>
+            </button>
+            <button class="portfolio_btn sidebar_btn" data-target="portfolio_section">
+                <img src="/resources/suitcase.svg" alt="portfolio" class="portfolio_img">
+                <span class="upper_sidebar_icon">Portfolio</span>
+            </button>
+            <button class="watchlist_btn sidebar_btn" data-target="watchlist_section">
+                <img src="/resources/monitor.svg" alt="watchlist" class="watchlist_img">
+                <span class="upper_sidebar_icon">Watchlist</span>
+            </button>
+            <hr class="sidebar_divider">
+        </div>
+        <div class="lower_sidebar">
+            <button class="logout_btn sidebar_btn" onclick="window.location.href='/login'">
+                <img src="/resources/sign-out.svg" alt="logout" class="logout_img">
+                <span class="upper_sidebar_icon logout_text">Log out</span>
+            </button>
+        </div>
+    </nav>
+    <main class="dashboard_main">
+
+        <section id="explore_section" class="dashboard_section">
+            <h2 class="section_title">Live Market</h2>
+            <div class="market_grid">
+                <% coins.forEach(coin => { %>
+                    <div class="coin_card">
+                        <div class="coin_header">
+                            <div class="coin_title_wrap">
+                                <img src="<%= coin.logo %>" alt="<%= coin.ticker %> logo" class="coin_logo">
+                                <h3 class="coin_name"><%= coin.name %></h3>
+                            </div>
+                            <span class="coin_ticker"><%= coin.ticker %></span>
+                        </div>
+                        
+                        <div class="coin_data">
+                            <h2 class="coin_price">$<%= coin.price %></h2>
+                            <span class="coin_change <%= coin.change24h >= 0 ? 'text_green' : 'text_red' %>">
+                                <%= coin.change24h > 0 ? '+' : '' %><%= coin.change24h %>%
+                            </span>
+                        </div>
+                        <button class="trade_btn">Trade</button>
+                    </div>
+                <% }) %> 
+            </div>
+        </section>
+
+        <section id="portfolio_section" class="dashboard_section hidden_section">
+            <h2 class="section_title">Your Portfolio</h2>
+            <h1 style="color: rgb(76, 160, 128);">Portfolio under construction...</h1>
+        </section>
+
+        <section id="watchlist_section" class="dashboard_section hidden_section">
+            <h2 class="section_title">Watchlist</h2>
+            <p>Your saved coins will go here!</p>
+        </section>
+    </main>
+    <script src="main.js"></script>
 </body>
 </html>
