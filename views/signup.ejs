@@ -15,7 +15,11 @@
         <form id="sign_up_form" action="/signup" method="POST">
             <input type="text" id="email" name="email" placeholder="email">
             <input type="text" id="username" name="username" placeholder="username">
-            <input type="password" id="password" name="password" placeholder="password">
+            <div class="password-wrapper">
+                <input type="password" id="password" name="password" placeholder="password">
+                <img src="eye-white.png" alt="eye-open" id="eye-open">
+            </div>
+
 
             <p class="section-label">Please enter your birthday</p>
         
@@ -54,11 +58,24 @@
             <input type="number" id="year" name="year" placeholder="Year" min="1900" max="2026">
             </div>
 
+            <input type="checkbox" id="terms" value="">
+            <label for="terms" id="lterms">by signing in you are agreeing to the terms and services</label>
+            <br>
+            <a href="/login" id="log">Log in</a>
+
             <p id="error_log_in">
             <% if (err) { %><%= err %><% } %>
             </p>
 
+            <img id="arrow_image" src="arrow1.jpe" alt="stock graph">
+            <p id="text_left">Get <span class="highlight">1000$</span> to start your crypto journey!</p>
+
             <button id="sign_up">Sign up</button>
+            <button id="google_signup">
+                continue with google
+                <img src="google-logo.png" alt="google logo" id="google-logo">
+            </button>
+
         </form>
     </div>
     <script src="signup.js"></script>

@@ -1,52 +1,90 @@
 body {
-    background-image: linear-gradient(to bottom, rgb(54, 85, 178), rgb(10, 8, 46));
+    background-color: rgb(23, 23, 23);
     display: flex; 
     justify-content: center; 
     align-items: center; 
-    height: 100vh;
+    min-height: 100vh;
     margin: 0; 
     font-family: 'Inter', sans-serif;
-}
+    align-items: center;
+}   
 
 #main_block {
-    text-align: center; 
+    margin-left: 70rem;
     background-color: rgb(23, 23, 23);
+    width: 50rem;
+    height: 45rem;
     width: 90vw;
     max-width: 30rem;
-    height: 50rem;
-    padding: 3rem 4rem; 
+    padding: 4rem 4rem; 
     border-radius: 1rem; 
-    box-shadow: 0 0.6rem 1.5rem rgba(0, 0, 0, 0.5); 
+    box-shadow: 0 0.6rem 1.5rem rgba(255, 255, 255, 0.5); 
+    box-sizing: border-box;
+    border: 0.2rem solid rgb(147, 147, 147);
 }
 
+
 #title {
-    color: rgb(157, 187, 210);
+    color: rgb(76, 160, 128);
     font-size: 5vh; 
     font-family: 'Mulish', sans-serif;
     margin-top: 0; 
-    margin-bottom: 6rem; 
+    margin-bottom: 2.5rem; 
 }
 
 input[type="text"], 
-input[type="password"] {
+input[type="password"],
+input[type="number"],
+select {
     width: 100%; 
     padding: 0.8rem;
     margin-bottom: 1.25rem; 
-    border: 0.1rem solid;
+    border: 0.1rem solid rgb(147, 147, 147);
     border-radius: 0.8rem; 
     background-color: rgb(23, 23, 23);
-    border-color: rgb(255, 255, 255);
     font-size: 1rem; 
     box-sizing: border-box; 
     font-family: 'Mulish', sans-serif;
-    color: rgb(255, 255, 255)
+    color: rgb(147, 147, 147);
+    outline: none;
+    transition: border-color 0.3s ease;
+    box-sizing: border-box; 
+}
+
+input:focus, 
+select:focus {
+    border-color: rgb(76, 160, 128);
+}
+
+.section-label {
+    color: rgb(181, 190, 197);
+    font-family: 'Mulish', sans-serif;
+    font-size: 0.95rem;
+    text-align: left;
+    margin-top: 0.2rem;
+    margin-bottom: 0.6rem;
+}
+
+#error_log_in {
+    color: rgb(255, 85, 85); 
+    font-size: 0.95rem;
+    font-weight: bold;
+    margin-top: 0.8rem;    
+    margin-bottom: 0.5rem;
+    min-height: 1.4rem;
+    font-family: 'Mulish', sans-serif;
+    text-align: center;
+}
+
+#error_log_in:empty {
+    display: none;
 }
 
 #log_in_button {
     width: 100%; 
     padding: 0.8rem;
-    margin-top: 2rem; 
-    background-color: rgb(41, 66, 85);
+    margin-top: 1rem; 
+    background-color: rgb(61, 128, 102);
     color: rgb(230, 234, 237);
     border: none;
     border-radius: 1.1rem; 
@@ -57,34 +95,27 @@ input[type="password"] {
     font-family: 'Mulish', sans-serif;
 }
 
-button:hover {
-    background-color: rgb(75, 122, 157); 
-}
-
-#error_log_in {
-    color: rgb(255, 85, 85); 
-    font-size: 0.9rem;
-    margin-top: -0.5rem;    
-    margin-bottom: 0.5rem;
-    min-height: 1.2rem;
-    font-family: 'Mulish', sans-serif;
+#log_in_button:hover {
+    background-color: rgb(76, 160, 128);
 }
 
 #sign_up {
     width: 100%; 
     padding: 0.8rem;
-    margin-top: 2rem; 
-    border: 0.1rem solid rgb(255, 255, 255);
-    border-radius: 1.1rem; 
+    margin-top: 1rem; 
     background-color: rgb(23, 23, 23);
-    color: rgb(230, 234, 237);
+    color: rgb(147, 147, 147);
+    border: 0.1rem solid rgb(147, 147, 147);
+    border-radius: 1.1rem; 
     font-size: 1.4rem; 
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: border-color 0.3s ease;
+    transition: color 0.3s ease;
     font-family: 'Mulish', sans-serif;
 }
 
 #sign_up:hover {
-    background-color: rgb(46, 46, 46); 
+    border-color: rgb(230, 234, 237);
+    color: rgb(230, 234, 237);
 }

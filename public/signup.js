@@ -6,6 +6,7 @@ document.getElementById("sign_up_form").addEventListener('submit', (event) => {
     const username = document.getElementById("username").value.trim();
     const year = document.getElementById("year").value.trim();
     const errorElement = document.getElementById("error_log_in");
+    const Check = document.getElementById("terms").checked;
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -31,6 +32,11 @@ document.getElementById("sign_up_form").addEventListener('submit', (event) => {
     }
     else if((username.includes('@'))){
         errorElement.textContent = "username cant include @";
+        errorElement.style.display = "block";
+    }
+    else if(!Check)
+    {
+        errorElement.textContent = "must agree to terms and service";
         errorElement.style.display = "block";
     }
     else{
