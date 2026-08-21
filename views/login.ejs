@@ -13,12 +13,19 @@
         <h1 id="title">Trade-In</h1>
         <form id="log_in_form" action="/login" method="POST">
             <input type="text" id="username" name="username" placeholder="username / email">
-            <input type="password" id="password" name="password" placeholder="password">
+            
+            <div class="password-wrapper">
+                <input type="password" id="password" name="password" placeholder="password">
+                <img src="eye-white.png" alt="eye-open" id="eye-open">
+            </div>
 
             <% if(err){ %>
             <p id = error_log_in><%= err %></p>
             <% }  %>
 
+
+            <input type="checkbox" id="terms" value="">
+            <label for="terms" id="lterms">by signing in you are agreeing to the terms and services</label>
 
             <button id = "log_in_button">Log in</button>
         </form>
