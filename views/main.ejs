@@ -3,9 +3,260 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Crypto Goats</title>
+    <link rel="stylesheet" href="main.css">
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Stack+Sans+Notch:wght@200..700&display=swap');
+    </style>    
 </head>
 <body>
-    <p>home page</p>
+    <header class="top_bar">
+        <div class="top_left">
+            <button class="menu_btn">
+                <img src="/resources/list.svg" alt="menu" class="menu_img">
+            </button>
+            <span class="logo">Crypto Goats</span>
+        </div>
+        <div class="top_center">
+            <input type="text" class="search_input" placeholder="Search coins...">
+            <a href="#" class="nav_link">News</a>
+            <a href="/about" class="nav_link">About us</a>
+        </div>
+        <div class="top_right">
+            <button class="settings_btn">
+                <img src="/resources/gear.svg" alt="settings" class="setting_img">
+            </button>
+            <div class="balance_display">
+                <span class="balance_label">Balance: $<%= user.balance.toLocaleString() %></span>
+            </div>
+            <button class="profile_btn">
+                <img src="https://ui-avatars.com/api/?name=<%= user.username %>&background=333&color=fff" alt="profile" class="pfp">
+            </button>
+        </div>
+    </header>
+    <nav class="sidebar">
+        <div class="upper_sidebar">
+            <button class="explore_btn sidebar_btn active_btn" data-target="explore_section">
+                <img src="/resources/chart-line.svg" alt="explore" class="explore_img">
+                <span class="upper_sidebar_icon">Explore</span>
+            </button>
+            <button class="portfolio_btn sidebar_btn" data-target="portfolio_section">
+                <img src="/resources/suitcase.svg" alt="portfolio" class="portfolio_img">
+                <span class="upper_sidebar_icon">Portfolio</span>
+            </button>
+            <button class="watchlist_btn sidebar_btn" data-target="watchlist_section">
+                <img src="/resources/monitor.svg" alt="watchlist" class="watchlist_img">
+                <span class="upper_sidebar_icon">Watchlist</span>
+            </button>
+            <hr class="sidebar_divider">
+        </div>
+        <div class="lower_sidebar">
+            <button class="logout_btn sidebar_btn" onclick="window.location.href='/login'">
+                <img src="/resources/sign-out.svg" alt="logout" class="logout_img">
+                <span class="upper_sidebar_icon logout_text">Log out</span>
+            </button>
+        </div>
+    </nav>
+    <main class="dashboard_main">
+
+        <section id="explore_section" class="dashboard_section">
+            <h2 class="section_title">Live Market</h2>
+            <div class="market_grid">
+                <% coins.forEach(coin => { %>
+                    <div class="coin_card">
+                        <div class="coin_header">
+                            <div class="coin_title_wrap">
+                                <img src="<%= coin.logo %>" alt="<%= coin.ticker %> logo" class="coin_logo">
+                                <h3 class="coin_name"><%= coin.name %></h3>
+                            </div>
+                            <span class="coin_ticker"><%= coin.ticker %></span>
+                        </div>
+                        
+                        <div class="coin_data">
+                            <h2 class="coin_price">$<%= coin.price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></h2>
+                            <span class="coin_change <%= coin.change24h >= 0 ? 'text_green' : 'text_red' %>">
+                                <%= coin.change24h > 0 ? '+' : '' %><%= coin.change24h %>%
+                            </span>
+                        </div>
+                        <button class="trade_btn">Trade</button>
+                    </div>
+                <% }) %> 
+            </div>
+        </section>
+
+        <section id="portfolio_section" class="dashboard_section hidden_section">
+            <h2 class="section_title">Your Portfolio</h2>
+            <div class="portfolio_grid">
+                <div class="portfolio_left">
+                    <div class="portfolio_box">
+                        <h3 class="box_title">Your Assets</h3>
+                        <div class="asset_grid">
+                            <% user.inventory.forEach(item => { 
+                                let currentTotal = item.amount * item.coin.price;
+                                let originalCost = item.amount * item.avgBuyPrice;
+                                let profitLoss = currentTotal - originalCost;
+                                let plClass = profitLoss >= 0 ? 'text_green' : 'text_red';
+                                let plSign = profitLoss > 0 ? '+' : '-'; %>
+                                <div class="coin_card portfolio_card">
+                                    <div class="coin_header">
+                                        <div class="coin_title_wrap">
+                                            <img src="<%= item.coin.logo %>" alt="<%= item.coin.ticker %> logo" class="coin_logo">
+                                            <h3 class="coin_name"><%= item.coin.name %></h3>
+                                        </div>
+                                        <span class="coin_ticker"><%= item.coin.ticker %></span>
+                                    </div>      
+                                    <div class="coin_data">
+                                        <h2 class="coin_price">$<%= currentTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></h2>
+                                        <span style="color: white; font-weight: 600; font-size: 14px;">
+                                            Owned: <%= item.amount.toLocaleString() %> <%= item.coin.ticker %>
+                                        </span>
+                                        <span style="color: white; font-weight: 600; font-size: 14px;">
+                                            Avg Buy: $<%= item.avgBuyPrice.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) %>
+                                        </span>
+                                        <span class="<%= plClass %>" style="font-weight: 700; font-size: 14px;">
+                                            Total P/L: <%= plSign %>$<%= Math.abs(profitLoss).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) %>
+                                        </span>
+                                    </div>
+                                    
+                                    <button class="sell_btn">Sell</button>
+                                </div>
+                            <% }) %>
+                        </div>
+                    </div>
+                    <div class="portfolio_box">
+                        <h3 class="box_title">Performance</h3>
+                        <%  let totalVal = 0;
+                            let totalCost = 0;
+                            let totalVal24hAgo = 0;
+
+                            user.inventory.forEach(item => {
+                                totalVal += (item.amount * item.coin.price);
+                                totalCost += (item.amount * item.avgBuyPrice);
+                                let price24hAgo = item.coin.price / (1 + (item.coin.change24h / 100));
+                                totalVal24hAgo += (item.amount * price24hAgo);
+                            });
+                            let allProfit = totalVal - totalCost;
+                            let allPct = totalCost > 0 ? (allProfit / totalCost) * 100 : 0;
+                            let allClass = allProfit >= 0 ? 'text_green' : 'text_red';
+                            let allSign = allProfit > 0 ? '+' : '-';
+                            let dayProfit = totalVal - totalVal24hAgo;
+                            let dayPct = totalVal24hAgo > 0 ? (dayProfit / totalVal24hAgo) * 100 : 0;
+                            let dayClass = dayProfit >= 0 ? 'text_green' : 'text_red';
+                            let daySign = dayProfit > 0 ? '+' : '-'; %>
+                        <div class="stats_grid">
+                            <div class="stat_card">
+                                <span class="stat_label">Holdings Worth</span>
+                                <h2 class="stat_value">$<%= totalVal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></h2>
+                            </div>
+                            <div class="stat_card">
+                                <div class="stat_header_row">
+                                    <span class="stat_label">Profit/Loss (USD)</span>
+                                    <div class="mini_toggle">
+                                        <span class="toggle_opt active" data-val="all">All</span>
+                                        <span class="toggle_opt" data-val="day">24h</span>
+                                    </div>
+                                </div>
+                                <h2 class="stat_value pl_stat all <%= allClass %>"><%= allSign %>$<%= Math.abs(allProfit).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></h2>
+                                <h2 class="stat_value pl_stat day hidden_section <%= dayClass %>"><%= daySign %>$<%= Math.abs(dayProfit).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></h2>
+                            </div>
+                            <div class="stat_card">
+                                <div class="stat_header_row">
+                                    <span class="stat_label">Profit/Loss (%)</span>
+                                    <div class="mini_toggle">
+                                        <span class="toggle_opt active" data-val="all">All</span>
+                                        <span class="toggle_opt" data-val="day">24h</span>
+                                    </div>
+                                </div>
+                                <h2 class="stat_value pl_stat all <%= allClass %>"><%= allSign %><%= Math.abs(allPct).toFixed(2) %>%</h2>
+                                <h2 class="stat_value pl_stat day hidden_section <%= dayClass %>"><%= daySign %><%= Math.abs(dayPct).toFixed(2) %>%</h2>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="portfolio_right portfolio_box">
+                    <h3 class="box_title">Recent Activity</h3>
+                    
+                    <div class="activity_feed">
+                        <% transactions.forEach(tx => { 
+                            let totalVal = tx.amount * tx.price; 
+                            let isBuy = tx.transactionType === 'buy';
+                        %>
+                            <div class="tx_row">
+                                <div class="tx_left">
+                                    <span class="tx_type <%= isBuy ? 'tx_buy' : 'tx_sell' %>">
+                                        <%= tx.transactionType.toUpperCase() %>
+                                    </span>
+                                    <img src="<%= tx.coinType.logo %>" class="tx_coin_img" alt="<%= tx.coinType.ticker %>">
+                                    <div class="tx_details">
+                                        <span class="tx_name"><%= tx.coinType.name %></span>
+                                        <span class="tx_date"><%= tx.createdAt.toLocaleDateString() %></span>
+                                    </div>
+                                </div>
+                                <div class="tx_right">
+                                    <span class="tx_amount"><%= isBuy ? '+' : '-' %><%= tx.amount %> <%= tx.coinType.ticker %></span>
+                                    <span class="tx_total">$<%= totalVal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></span>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <section id="watchlist_section" class="dashboard_section hidden_section">
+            <h2 class="section_title">Watchlist & Rankings</h2>
+            <div class="watchlist_split_layout">
+                <div class="portfolio_box">
+                    <h3 class="box_title">Your Watchlist</h3>
+                    <div class="watchlist_list">
+                        <% user.watchlist.forEach(coin => { %>
+                            <div class="list_row">
+                                <div class="row_left">
+                                    <img src="<%= coin.logo %>" alt="logo" class="coin_logo">
+                                    <h3 class="coin_name"><%= coin.name %></h3>
+                                    <span class="coin_ticker"><%= coin.ticker %></span>
+                                </div>
+                                <div class="row_center">
+                                    <span class="coin_price" style="font-size: 18px; font-weight: 700;">$<%= coin.price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></span>
+                                    <span class="coin_change <%= coin.change24h >= 0 ? 'text_green' : 'text_red' %>" style="font-weight: 700;">
+                                        <%= coin.change24h > 0 ? '+' : '' %><%= coin.change24h %>%
+                                    </span>
+                                </div>
+                                <div class="row_right">
+                                    <button class="trade_btn" style="padding: 8px 15px; font-size: 14px;">Trade</button>
+                                    <button class="remove_btn" style="padding: 8px 12px; font-size: 14px;">✕</button>
+                                </div>
+                            </div>
+                        <% }) %>
+
+                    </div>
+                </div>
+                <div class="portfolio_box">
+                    <h3 class="box_title">Top Traders (By Balance)</h3>
+                    <div class="leaderboard_list">
+                        <% topUsers.forEach((topUser, index) => { %>
+                            <div class="list_row">
+                                <div class="row_left">
+                                    <span class="rank">#<%= index + 1 %></span>
+                                    <img src="https://ui-avatars.com/api/?name=<%= topUser.username %>&background=333&color=fff" alt="pfp" class="pfp" style="width: 35px; height: 35px;">
+                                    <span class="coin_name"><%= topUser.username %></span>
+                                </div>
+                                <div class="row_right">
+                                    <span class="coin_price text_green" style="font-size: 20px; font-weight: 800;">
+                                        $<%= topUser.balance.toLocaleString() %>
+                                    </span>
+                                </div>
+                            </div>
+                        <% }) %>
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+    </main>
+    <script src="main.js"></script>
 </body>
 </html>

@@ -10,7 +10,11 @@ const userSchema = new Schema({
         coin: {type: mongoose.Schema.Types.ObjectId, ref: 'Coin', required: true},
         amount: {type: Number,required: true},
         avgBuyPrice: {type: Number}
-    }]      
+    }],
+    watchlist:[{
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Coin'
+    }]
 }, {timestamps: true});
 
 const User = mongoose.model('User', userSchema);
