@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 
 const transactionSchema = new Schema({
-    reciver: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true},
     amount: { type: number, required: true },
     price: { type: Number, required: true },
     coinType: { type: mongoose.Schema.Types.ObjectId, ref: 'Coin', required: true }, 
