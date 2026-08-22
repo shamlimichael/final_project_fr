@@ -62,3 +62,22 @@ searchInput.addEventListener('input', (e) => {
         }
     });
 });
+
+const removeButtons = document.querySelectorAll('.remove_btn');
+
+removeButtons.forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        const row = e.target.closest('.list_row');
+        if (row) {
+            row.remove();
+        }
+    });
+});
+
+const logoBtn = document.querySelector('.logo');
+
+logoBtn.addEventListener('click', () => {
+    exploreBtn.click();
+    searchInput.value = '';
+    exploreCards.forEach(card => card.style.display = 'flex');
+});

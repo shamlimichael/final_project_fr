@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 const User = require('./models/user');
 const Coin = require('./models/cryptocoin');
+const Transaction = require('./models/transaction');
 
 const app = express();
 
@@ -57,13 +58,39 @@ let mockTopUsers = [
     { username: "PaperHands", balance: 250 }
 ];
 
+let mockTransactions = [
+    { 
+        transactionType: 'buy', 
+        coinType: coin1,
+        amount: 2.5, 
+        price: 3400.50, 
+        createdAt: new Date('2026-08-22T14:32:00') 
+    },
+    { 
+        transactionType: 'sell', 
+        coinType: coin2,
+        amount: 15.00, 
+        price: 145.20, 
+        createdAt: new Date('2026-08-21T09:15:00') 
+    },
+    { 
+        transactionType: 'buy', 
+        coinType: coin7,
+        amount: 50.00, 
+        price: 18.30, 
+        createdAt: new Date('2026-08-18T11:20:00') 
+    }
+];
+
 app.get('/', (req, res) => {
     res.render('main', {
         user: usertest,
         coins: [
         coin1, coin2, coin3, coin4, coin5, coin6, coin7, coin8, coin9, coin10,
         coin11, coin12, coin13, coin14, coin15
-    ], topUsers: mockTopUsers
+    ],
+    topUsers: mockTopUsers,
+    transactions: mockTransactions
     });
 });
 
@@ -124,3 +151,4 @@ app.post('/login', async (req, res) => {
         res.status(500).send('Internal server error');
     }
 });
+

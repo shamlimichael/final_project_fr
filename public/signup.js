@@ -6,6 +6,7 @@ document.getElementById("sign_up_form").addEventListener('submit', (event) => {
     const username = document.getElementById("username").value.trim();
     const year = document.getElementById("year").value.trim();
     const errorElement = document.getElementById("error_log_in");
+    const Check = document.getElementById("terms").checked;
 
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -33,9 +34,30 @@ document.getElementById("sign_up_form").addEventListener('submit', (event) => {
         errorElement.textContent = "username cant include @";
         errorElement.style.display = "block";
     }
+    else if(!Check)
+    {
+        errorElement.textContent = "must agree to terms and service";
+        errorElement.style.display = "block";
+    }
     else{
         errorElement.textContent = "";
         errorElement.style.display = "none";
         document.getElementById("sign_up_form").submit();
+    }
+});
+
+document.getElementById("eye-open").addEventListener('click', () => {
+    const eyeIcon = document.getElementById("eye-open");
+    const passwordInput = document.getElementById("password");
+
+    if (eyeIcon.src.includes("eye-slash-white-square.png")) {
+        eyeIcon.src = "eye-white.png";
+        passwordInput.type = "password";
+        eyeIcon.classList.remove("slashed-eye-style"); 
+
+    } else {
+        eyeIcon.src = "eye-slash-white-square.png";
+        passwordInput.type = "text";
+        eyeIcon.classList.add("slashed-eye-style"); 
     }
 });

@@ -17,10 +17,9 @@
             </button>
             <span class="logo">Crypto Goats</span>
         </div>
-        <div class = "top_center">
+        <div class="top_center">
             <input type="text" class="search_input" placeholder="Search coins...">
             <a href="#" class="nav_link">News</a>
-            <a href="#" class="nav_link">Brokers</a>
             <a href="/about" class="nav_link">About us</a>
         </div>
         <div class="top_right">
@@ -74,7 +73,7 @@
                         </div>
                         
                         <div class="coin_data">
-                            <h2 class="coin_price">$<%= coin.price.toLocaleString() %></h2>
+                            <h2 class="coin_price">$<%= coin.price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></h2>
                             <span class="coin_change <%= coin.change24h >= 0 ? 'text_green' : 'text_red' %>">
                                 <%= coin.change24h > 0 ? '+' : '' %><%= coin.change24h %>%
                             </span>
@@ -107,15 +106,15 @@
                                         <span class="coin_ticker"><%= item.coin.ticker %></span>
                                     </div>      
                                     <div class="coin_data">
-                                        <h2 class="coin_price">$<%= currentTotal.toLocaleString() %></h2>
+                                        <h2 class="coin_price">$<%= currentTotal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></h2>
                                         <span style="color: white; font-weight: 600; font-size: 14px;">
                                             Owned: <%= item.amount.toLocaleString() %> <%= item.coin.ticker %>
                                         </span>
                                         <span style="color: white; font-weight: 600; font-size: 14px;">
-                                            Avg Buy: $<%= item.avgBuyPrice.toLocaleString() %>
+                                            Avg Buy: $<%= item.avgBuyPrice.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) %>
                                         </span>
                                         <span class="<%= plClass %>" style="font-weight: 700; font-size: 14px;">
-                                            Total P/L: <%= plSign %>$<%= Math.abs(profitLoss).toLocaleString() %>
+                                            Total P/L: <%= plSign %>$<%= Math.abs(profitLoss).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) %>
                                         </span>
                                     </div>
                                     
@@ -147,7 +146,7 @@
                         <div class="stats_grid">
                             <div class="stat_card">
                                 <span class="stat_label">Holdings Worth</span>
-                                <h2 class="stat_value">$<%= totalVal.toLocaleString() %></h2>
+                                <h2 class="stat_value">$<%= totalVal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></h2>
                             </div>
                             <div class="stat_card">
                                 <div class="stat_header_row">
@@ -157,8 +156,8 @@
                                         <span class="toggle_opt" data-val="day">24h</span>
                                     </div>
                                 </div>
-                                <h2 class="stat_value pl_stat all <%= allClass %>"><%= allSign %>$<%= Math.abs(allProfit).toLocaleString() %></h2>
-                                <h2 class="stat_value pl_stat day hidden_section <%= dayClass %>"><%= daySign %>$<%= Math.abs(dayProfit).toLocaleString() %></h2>
+                                <h2 class="stat_value pl_stat all <%= allClass %>"><%= allSign %>$<%= Math.abs(allProfit).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></h2>
+                                <h2 class="stat_value pl_stat day hidden_section <%= dayClass %>"><%= daySign %>$<%= Math.abs(dayProfit).toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></h2>
                             </div>
                             <div class="stat_card">
                                 <div class="stat_header_row">
@@ -174,9 +173,33 @@
                         </div>
                     </div>
                 </div>
+                
                 <div class="portfolio_right portfolio_box">
                     <h3 class="box_title">Recent Activity</h3>
-                    <p style="color: white;">Transaction feed loading...</p>
+                    
+                    <div class="activity_feed">
+                        <% transactions.forEach(tx => { 
+                            let totalVal = tx.amount * tx.price; 
+                            let isBuy = tx.transactionType === 'buy';
+                        %>
+                            <div class="tx_row">
+                                <div class="tx_left">
+                                    <span class="tx_type <%= isBuy ? 'tx_buy' : 'tx_sell' %>">
+                                        <%= tx.transactionType.toUpperCase() %>
+                                    </span>
+                                    <img src="<%= tx.coinType.logo %>" class="tx_coin_img" alt="<%= tx.coinType.ticker %>">
+                                    <div class="tx_details">
+                                        <span class="tx_name"><%= tx.coinType.name %></span>
+                                        <span class="tx_date"><%= tx.createdAt.toLocaleDateString() %></span>
+                                    </div>
+                                </div>
+                                <div class="tx_right">
+                                    <span class="tx_amount"><%= isBuy ? '+' : '-' %><%= tx.amount %> <%= tx.coinType.ticker %></span>
+                                    <span class="tx_total">$<%= totalVal.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></span>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
                 </div>
 
             </div>
@@ -196,7 +219,7 @@
                                     <span class="coin_ticker"><%= coin.ticker %></span>
                                 </div>
                                 <div class="row_center">
-                                    <span class="coin_price" style="font-size: 18px; font-weight: 700;">$<%= coin.price.toLocaleString() %></span>
+                                    <span class="coin_price" style="font-size: 18px; font-weight: 700;">$<%= coin.price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></span>
                                     <span class="coin_change <%= coin.change24h >= 0 ? 'text_green' : 'text_red' %>" style="font-weight: 700;">
                                         <%= coin.change24h > 0 ? '+' : '' %><%= coin.change24h %>%
                                     </span>
