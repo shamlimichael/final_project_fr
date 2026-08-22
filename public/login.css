@@ -26,7 +26,7 @@ body {
 
 #title {
     color: rgb(76, 160, 128);
-    font-size: 5vh; 
+    font-size: 3.2rem; 
     font-family: 'Mulish', sans-serif;
     margin-top: 0; 
     margin-bottom: 2.5rem; 
@@ -132,7 +132,8 @@ select:focus {
     margin-bottom: 1.25rem;
 }
 
-.password-wrapper input[type="password"] {
+.password-wrapper input[type="password"],
+.password-wrapper input[type="text"] {
     margin-bottom: 0;
     padding-right: 2.8rem; 
 }
@@ -152,4 +153,8 @@ select:focus {
 
 #eye-open:hover {
     opacity: 1;
+}
+
+.slashed-eye-style{
+    transform: translateY(0%) scale(2.2) !important;
 }

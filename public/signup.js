@@ -45,3 +45,19 @@ document.getElementById("sign_up_form").addEventListener('submit', (event) => {
         document.getElementById("sign_up_form").submit();
     }
 });
+
+document.getElementById("eye-open").addEventListener('click', () => {
+    const eyeIcon = document.getElementById("eye-open");
+    const passwordInput = document.getElementById("password");
+
+    if (eyeIcon.src.includes("eye-slash-white-square.png")) {
+        eyeIcon.src = "eye-white.png";
+        passwordInput.type = "password";
+        eyeIcon.classList.remove("slashed-eye-style"); 
+
+    } else {
+        eyeIcon.src = "eye-slash-white-square.png";
+        passwordInput.type = "text";
+        eyeIcon.classList.add("slashed-eye-style"); 
+    }
+});
