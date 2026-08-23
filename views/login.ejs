@@ -19,18 +19,12 @@
                 <img src="eye-white.png" alt="eye-open" id="eye-open" class="">
             </div>
 
-            <% if(err){ %>
-            <p id = error_log_in><%= err %></p>
-            <% }  %>
-
-
-            <input type="checkbox" id="terms" value="">
-            <label for="terms" id="lterms">by signing in you are agreeing to the terms and services</label>
+           <p id="error_log_in"><% if (err) { %><%= err %><% } %></p>
 
             <button id = "log_in_button">Log in</button>
         </form>
 
-            <button id = "sign_up" herf="/signup">Sign up</button> 
+            <button id = "sign_up">Sign up</button> 
     </div>
     <script src="login.js"></script>
 </body>
