@@ -82,15 +82,13 @@ let mockTransactions = [
     }
 ];
 
-app.get('/', (req, res) => {
+app.get('/', async (req, res) => {
+    const coins = await Coin.find();
     res.render('main', {
         user: usertest,
-        coins: [
-        coin1, coin2, coin3, coin4, coin5, coin6, coin7, coin8, coin9, coin10,
-        coin11, coin12, coin13, coin14, coin15
-    ],
-    topUsers: mockTopUsers,
-    transactions: mockTransactions
+        coins: coins,
+        topUsers: mockTopUsers,
+        transactions: mockTransactions
     });
 });
 
