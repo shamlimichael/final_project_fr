@@ -51,10 +51,12 @@
             <hr class="sidebar_divider">
         </div>
         <div class="lower_sidebar">
-            <button class="logout_btn sidebar_btn" onclick="window.location.href='/login'">
-                <img src="/resources/sign-out.svg" alt="logout" class="logout_img">
-                <span class="upper_sidebar_icon logout_text">Log out</span>
-            </button>
+            <form action="/logout" method="POST">
+                <button type="submit" class="logout_btn sidebar_btn">
+                    <img src="/resources/sign-out.svg" alt="logout" class="logout_img">
+                    <span class="upper_sidebar_icon logout_text">Log out</span>
+                </button>
+            </form>
         </div>
     </nav>
     <main class="dashboard_main">
@@ -96,7 +98,7 @@
                                 let originalCost = item.amount * item.avgBuyPrice;
                                 let profitLoss = currentTotal - originalCost;
                                 let plClass = profitLoss >= 0 ? 'text_green' : 'text_red';
-                                let plSign = profitLoss > 0 ? '+' : '-'; %>
+                                let plSign = profitLoss >= 0 ? '+' : '-'; %>
                                 <div class="coin_card portfolio_card">
                                     <div class="coin_header">
                                         <div class="coin_title_wrap">
@@ -138,11 +140,11 @@
                             let allProfit = totalVal - totalCost;
                             let allPct = totalCost > 0 ? (allProfit / totalCost) * 100 : 0;
                             let allClass = allProfit >= 0 ? 'text_green' : 'text_red';
-                            let allSign = allProfit > 0 ? '+' : '-';
+                            let allSign = allProfit >= 0 ? '+' : '-';
                             let dayProfit = totalVal - totalVal24hAgo;
                             let dayPct = totalVal24hAgo > 0 ? (dayProfit / totalVal24hAgo) * 100 : 0;
                             let dayClass = dayProfit >= 0 ? 'text_green' : 'text_red';
-                            let daySign = dayProfit > 0 ? '+' : '-'; %>
+                            let daySign = dayProfit >= 0 ? '+' : '-'; %>
                         <div class="stats_grid">
                             <div class="stat_card">
                                 <span class="stat_label">Holdings Worth</span>
