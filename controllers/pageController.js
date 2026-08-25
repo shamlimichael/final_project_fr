@@ -1,13 +1,24 @@
 const Coin = require('../models/cryptocoin');
 const Transaction = require('../models/transaction');
+const User = require('../models/user');
 
-let mockTopUsers = [
-    { username: "CryptoWhale", balance: 1250450 },
-    { username: "DiamondHands", balance: 850200 },
-    { username: "SatoshiFan99", balance: 420000 },
-    { username: "userTheKing", balance: 10000 },
-    { username: "PaperHands", balance: 250 }
-];
+const getTopUsers = async () => {
+    const users = await User.find().populate('inventory.coin');
+
+    const ranked = users.map(user => {
+        let holdingsValue = 0;
+        user.inventory.forEach(item => {
+            holdingsValue += item.amount * item.coin.price;
+        });
+        return {
+            username: user.username,
+            netWorth: user.balance + holdingsValue
+        };
+    });
+
+    ranked.sort((a, b) => b.netWorth - a.netWorth);
+    return ranked.slice(0, 10);
+};
 
 const main_index = async (req, res) => {
     const coins = await Coin.find();
@@ -15,7 +26,7 @@ const main_index = async (req, res) => {
     res.render('main', {
         user: req.user,
         coins: coins,
-        topUsers: mockTopUsers,
+        topUsers: await getTopUsers(),
         transactions: transactions
     });
 };

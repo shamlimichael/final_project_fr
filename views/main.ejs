@@ -236,7 +236,7 @@
                     </div>
                 </div>
                 <div class="portfolio_box">
-                    <h3 class="box_title">Top Traders (By Balance)</h3>
+                    <h3 class="box_title">Top Traders (By Net Worth)</h3>
                     <div class="leaderboard_list">
                         <% topUsers.forEach((topUser, index) => { %>
                             <div class="list_row">
@@ -247,7 +247,7 @@
                                 </div>
                                 <div class="row_right">
                                     <span class="coin_price text_green" style="font-size: 20px; font-weight: 800;">
-                                        $<%= topUser.balance.toLocaleString() %>
+                                        $<%= topUser.netWorth.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) %>
                                     </span>
                                 </div>
                             </div>
