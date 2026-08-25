@@ -81,3 +81,21 @@ logoBtn.addEventListener('click', () => {
     searchInput.value = '';
     exploreCards.forEach(card => card.style.display = 'flex');
 });
+
+const refreshPrices = async () => {
+    const res = await fetch('/api/prices');
+    const coins = await res.json();
+
+    coins.forEach(coin => {
+        document.querySelectorAll(`.coin_price[data-ticker="${coin.ticker}"]`).forEach(el => {
+            el.textContent = '$' + coin.price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        });
+        document.querySelectorAll(`.coin_change[data-ticker="${coin.ticker}"]`).forEach(el => {
+            el.textContent = (coin.change24h > 0 ? '+' : '') + coin.change24h + '%';
+            el.classList.toggle('text_green', coin.change24h >= 0);
+            el.classList.toggle('text_red', coin.change24h < 0);
+        });
+    });
+};
+
+setInterval(refreshPrices, 5000);
