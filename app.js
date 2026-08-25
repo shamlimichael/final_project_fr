@@ -6,11 +6,15 @@ const { MongoStore } = require('connect-mongo');
 const User = require('./models/user');
 const authRoutes = require('./routes/authRoutes');
 const pageRoutes = require('./routes/pageRoutes');
+const priceChanger = require('./priceChanger');
 
 const app = express();
 
 mongoose.connect(process.env.API_KEY)
-    .then((result) => app.listen(3000))
+    .then((result) => {
+        app.listen(3000);
+        priceChanger.start();
+    })
     .catch((err) => console.log(err));
 
 app.set('view engine', 'ejs');

@@ -20,4 +20,12 @@ const main_index = async (req, res) => {
     });
 };
 
-module.exports = { main_index };
+const prices_get = async (req, res) => {
+    const coins = await Coin.find().select('ticker price change24h');
+    res.json(coins);
+};
+
+module.exports = {
+    main_index,
+    prices_get
+};

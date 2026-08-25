@@ -75,8 +75,8 @@
                         </div>
                         
                         <div class="coin_data">
-                            <h2 class="coin_price">$<%= coin.price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></h2>
-                            <span class="coin_change <%= coin.change24h >= 0 ? 'text_green' : 'text_red' %>">
+                            <h2 class="coin_price" data-ticker="<%= coin.ticker %>">$<%= coin.price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></h2>
+                            <span class="coin_change <%= coin.change24h >= 0 ? 'text_green' : 'text_red' %>" data-ticker="<%= coin.ticker %>">
                                 <%= coin.change24h > 0 ? '+' : '' %><%= coin.change24h %>%
                             </span>
                         </div>
@@ -221,8 +221,8 @@
                                     <span class="coin_ticker"><%= coin.ticker %></span>
                                 </div>
                                 <div class="row_center">
-                                    <span class="coin_price" style="font-size: 18px; font-weight: 700;">$<%= coin.price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></span>
-                                    <span class="coin_change <%= coin.change24h >= 0 ? 'text_green' : 'text_red' %>" style="font-weight: 700;">
+                                    <span class="coin_price" style="font-size: 18px; font-weight: 700;" data-ticker="<%= coin.ticker %>">$<%= coin.price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></span>
+                                    <span class="coin_change <%= coin.change24h >= 0 ? 'text_green' : 'text_red' %>" style="font-weight: 700;" data-ticker="<%= coin.ticker %>">
                                         <%= coin.change24h > 0 ? '+' : '' %><%= coin.change24h %>%
                                     </span>
                                 </div>
