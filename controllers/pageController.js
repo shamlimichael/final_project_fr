@@ -36,7 +36,10 @@ const prices_get = async (req, res) => {
     res.json(coins);
 };
 
+const about_index = (req, res) => { res.render('about'); };
+
 module.exports = {
     main_index,
-    prices_get
+    prices_get,
+    about_index
 };
