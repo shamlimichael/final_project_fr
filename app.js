@@ -6,6 +6,7 @@ const { MongoStore } = require('connect-mongo');
 const User = require('./models/user');
 const authRoutes = require('./routes/authRoutes');
 const pageRoutes = require('./routes/pageRoutes');
+const userRoutes = require('./routes/userRoutes');
 const priceChanger = require('./priceChanger');
 
 const app = express();
@@ -43,4 +44,6 @@ const requireAuth = async (req, res, next) => {
 app.use(authRoutes);
 
 app.use(requireAuth, pageRoutes);
+
+app.use(userRoutes);
 
