@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin — Crypto Goats</title>
+    <link rel="stylesheet" href="main.css">
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Stack+Sans+Notch:wght@200..700&display=swap');
+    </style>
+</head>
+<body>
+    <main class="dashboard_main" style="margin-top: 20px;">
+        <h2 class="section_title">Manage Coins</h2>
+
+        <form action="/admin/coins" method="POST" style="margin-bottom: 40px; display: flex; gap: 10px;">
+            <input type="text" name="name" placeholder="name" class="search_input" required>
+            <input type="text" name="ticker" placeholder="ticker" class="search_input" required>
+            <input type="number" name="price" step="0.01" placeholder="price" class="search_input" required>
+            <button type="submit" class="trade_btn">Add coin</button>
+        </form>
+
+        <div class="watchlist_list">
+            <% coins.forEach(coin => { %>
+                <div class="list_row">
+                    <div class="row_left">
+                        <img src="<%= coin.logo %>" class="coin_logo">
+                        <span class="coin_name"><%= coin.name %></span>
+                        <span class="coin_ticker"><%= coin.ticker %></span>
+                    </div>
+                    <div class="row_center">
+                        <span>$<%= coin.price.toFixed(2) %></span>
+                    </div>
+                    <div class="row_right">
+                        <form action="/admin/coins/<%= coin._id %>/delete" method="POST">
+                            <button type="submit" class="setting_button">Delete</button>
+                        </form>
+                        <form action="/admin/coins/<%= coin._id %>/update" method="POST">
+                            <input type="text" name="name" placeholder="updated name" value="<%= coin.name %>" class="search_input">
+                            <input type="text" name="ticker" placeholder="updated ticker" value="<%= coin.ticker %>" class="search_input">
+                            <input type="number" name="price" step="0.01" value="<%= coin.price.toFixed(2) %>" class="search_input">
+                            <button type="submit" class="setting_button">Update</button>
+                        </form>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+    </main>
+</body>
+</html>
