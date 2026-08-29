@@ -80,7 +80,7 @@
                                 <%= coin.change24h > 0 ? '+' : '' %><%= coin.change24h %>%
                             </span>
                         </div>
-                        <button class="trade_btn">Trade</button>
+                        <a href="/coin/<%= coin.ticker %>" class="trade_btn">Trade</a>
                     </div>
                 <% }) %> 
             </div>

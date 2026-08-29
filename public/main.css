@@ -581,3 +581,9 @@ body {
     font-weight: 600;
     color: white; 
 }
+
+a.trade_btn {
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+}

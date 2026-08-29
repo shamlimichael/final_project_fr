@@ -23,7 +23,8 @@ const signup_post = async (req,res) => {
             balance: 1000
         });
         await user.save();
-        res.redirect('/login');
+        req.session.userId = user._id;
+        res.redirect('/');;
     }
     catch (err) {
         console.log('couldent save password', err);

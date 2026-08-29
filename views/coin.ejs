@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= coin.name %> - Crypto Goats</title>
+    <link rel="stylesheet" href="/main.css">
+    <link rel="stylesheet" href="/coin.css">
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Mulish:ital,wght@0,200..1000;1,200..1000&family=Stack+Sans+Notch:wght@200..700&display=swap');
+    </style>
+</head>
+<body>
+
+    <header class="top_bar">
+        <div class="top_left">
+            <span class="logo">Crypto Goats</span>
+        </div>
+        <div class="top_right">
+            <div class="balance_display">
+                <span class="balance_label">Balance: $<%= user.balance.toLocaleString() %></span>
+            </div>
+            <button class="profile_btn">
+                <img src="https://ui-avatars.com/api/?name=<%= user.username %>&background=333&color=fff" alt="profile" class="pfp">
+            </button>
+        </div>
+    </header>
+
+    <main class="coin_main">
+
+        <div class="coin">
+            <div class="coin_left">
+                <img src="<%= coin.logo %>" alt="<%= coin.name %> logo" class="coin_logo">
+                <div class="coin_info">
+                    <div class="coin_name_row">
+                        <h1 class="coin_name"><%= coin.name %></h1>
+                        <span class="coin_ticker"><%= coin.ticker %></span>
+                    </div>
+                    <div class="coin_price_row">
+                        <h2 class="coin_price">$<%= coin.price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></h2>
+                        <span class="coin_change <%= coin.change24h >= 0 ? 'text_green' : 'text_red' %>">
+                            <%= coin.change24h > 0 ? '+' : '' %><%= coin.change24h %>%
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="coin_layout">
+
+        <div class="portfolio_box coin_graph_panel">
+            <div class="graph_panel_header">
+                <h3 class="box_title">Price Chart</h3>
+                <div class="timeframe_container">
+                    <button class="tf_btn active" data-tf="10m">1M</button>
+                    <button class="tf_btn" data-tf="1h">10M</button>
+                    <button class="tf_btn" data-tf="all">1H</button>
+                </div>
+            </div>
+            <div class="graph_placeholder">
+                <canvas id="coinChart"></canvas>
+            </div>
+        </div>
+            <div class="coin_right_col">
+
+                <div class="portfolio_box coin_stats_panel">
+                    <h3 class="box_title">Coin Stats</h3>
+                    <div class="coin_stats_list">
+                        <div class="stat_row">
+                            <span class="stat_row_label">Name</span>
+                            <span class="stat_row_value"><%= coin.name %></span>
+                        </div>
+                        <div class="stat_row">
+                            <span class="stat_row_label">Ticker</span>
+                            <span class="coin_ticker" style="font-size: 14px; padding: 3px 8px;"><%= coin.ticker %></span>
+                        </div>
+                        <div class="stat_row">
+                            <span class="stat_row_label">Current Price</span>
+                            <span class="stat_row_value">$<%= coin.price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></span>
+                        </div>
+                        <div class="stat_row">
+                            <span class="stat_row_label">24h Change</span>
+                            <span class="stat_row_value <%= coin.change24h >= 0 ? 'text_green' : 'text_red' %>">
+                                <%= coin.change24h > 0 ? '+' : '' %><%= coin.change24h %>%
+                            </span>
+                        </div>
+                        <div class="stat_row">
+                            <span class="stat_row_label">Owned</span>
+                            <span class="stat_row_value" id="owned_amount"><!-- amount goes here --></span>
+                        </div>
+                        <div class="stat_row">
+                            <span class="stat_row_label">Status</span>
+                            <span class="stat_row_value text_green">● Live</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="coin_action_box">
+                    <div class="coin_amount_row">
+                        <span class="amount_label">Amount</span>
+                        <input type="number" class="amount_input" placeholder="0" min="0">
+                        <span class="amount_value" id="trade_value">----</span>
+                    </div>
+                    <div class="coin_action_btns">
+                        <button class="trade_btn coin_action_btn">Buy</button>
+                        <button class="sell_btn coin_action_btn">Sell</button>
+                    </div>
+                </div>
+
+            </div>
+        </div> 
+    </main>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            const COIN_TICKER       = "<%= coin.ticker %>";
+            const COIN_PRICE        = <%= coin.price %>;
+            const PRICE_HISTORY     = <%- JSON.stringify(priceHistory) %>;
+            const PRICE_HISTORY_10M = <%- JSON.stringify(priceHistoryTenMin) %>;
+            const PRICE_HISTORY_1H  = <%- JSON.stringify(priceHistoryHour) %>;
+        </script>
+        <script src="/coin.js"></script>
+</body>
+</html>
