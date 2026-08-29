@@ -14,7 +14,8 @@ const userSchema = new Schema({
     watchlist:[{
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Coin'
-    }]
+    }],
+    role: { type: String, enum: ['user', 'admin'], default: 'user' },
 }, {timestamps: true});
 
 const User = mongoose.model('User', userSchema);

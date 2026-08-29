@@ -7,6 +7,7 @@ const User = require('./models/user');
 const authRoutes = require('./routes/authRoutes');
 const pageRoutes = require('./routes/pageRoutes');
 const userRoutes = require('./routes/userRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 const priceChanger = require('./priceChanger');
 
 const app = express();
@@ -41,9 +42,15 @@ const requireAuth = async (req, res, next) => {
     next();
 };
 
+const requireAdmin = (req, res, next) => {
+    if (req.user.role !== 'admin') return res.status(403).send('Forbidden');
+    next();
+};
+
 app.use(authRoutes);
 
 app.use(requireAuth, pageRoutes);
 
 app.use(userRoutes);
 
+app.use(requireAuth, requireAdmin, adminRoutes);
