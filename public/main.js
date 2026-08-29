@@ -99,3 +99,70 @@ const refreshPrices = async () => {
 };
 
 setInterval(refreshPrices, 5000);
+
+const settingsBtn = document.querySelector('.settings_btn');
+const settingsModal = document.getElementById('settings_modal');
+settingsBtn.addEventListener('click', () => {
+    settingsModal.classList.remove('hidden_section');
+});
+document.querySelector('.close_modal').addEventListener('click', () => {
+    settingsModal.classList.add('hidden_section');
+    document.querySelector('#new_username').value = '';
+    document.querySelector('#current_password').value = '';
+    document.querySelector('#new_password').value = '';
+    document.querySelector('#delete_password').value = '';
+});
+
+const settingsMsg = document.getElementById('settings_msg');
+
+const showMsg = (text, isError) => {
+    settingsMsg.textContent = text;
+    settingsMsg.classList.toggle('text_red', isError);
+    settingsMsg.classList.toggle('text_green', !isError);
+};
+
+document.getElementById('username_form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const res = await fetch('/settings/username', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username: document.getElementById('new_username').value })
+    });
+    const data = await res.json();
+    if (data.error) return showMsg(data.error, true);
+    showMsg('username updated', false);
+    document.querySelector('.pfp').src = `https://ui-avatars.com/api/?name=${data.username}&background=333&color=fff`;
+});
+
+document.getElementById('password_form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const res = await fetch('/settings/password', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            currentPassword: document.getElementById('current_password').value,
+            newPassword: document.getElementById('new_password').value
+        })
+    });
+    const data = await res.json();
+    if (data.error) return showMsg(data.error, true);
+    showMsg('password updated', false);
+    document.getElementById('password_form').reset();
+});
+
+document.getElementById('delete_form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    if (!confirm('If you give up you are a chud.')) return;
+    const res = await fetch('/settings/delete', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ password: document.getElementById('delete_password').value })
+    });
+    const data = await res.json();
+    if (data.error) return showMsg(data.error, true);
+    window.location.href = '/login';
+});
+
+document.querySelector('.profile_btn').addEventListener('click', () => {
+    window.location.href = '/users';
+});

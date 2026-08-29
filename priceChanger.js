@@ -7,7 +7,6 @@ const minprice = 0.01;
 const secsbetween = 5000;
 const rawToTenMin = 12;
 const tenMinToHour = 5;
-
 const buffers = {}; 
 
 const tick = async () => {
