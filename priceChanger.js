@@ -6,8 +6,11 @@ const secsbetween = 5000;
 
 const tick = async () => {
     try {
-        const coins = await Coin.find();
-        for (const coin of coins) {
+        const coinIds = await Coin.find().select('_id');
+        for (const { _id } of coinIds) {
+            const coin = await Coin.findById(_id);
+            if (!coin) continue;
+
             const drift = (Math.random() - 0.5) * 0.04;
             const newPrice = Math.max(coin.price * (1 + drift), minprice);
             const newChange = Number((((newPrice - coin.price) / coin.price) * 100 + coin.change24h * 0.9).toFixed(2));
