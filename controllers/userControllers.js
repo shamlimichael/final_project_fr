@@ -61,8 +61,42 @@ const delete_post = async (req, res) => {
     }
 };
 
+const search_users = async (req, res) => {
+    try {
+        const name = (req.query.username || '').trim();
+        const min = Number(req.query.min) || 0;
+        const max = Number(req.query.max) || Infinity;
+
+        const filter = {};
+        if (name) filter.username = { $regex: name, $options: 'i' };
+
+        const users = await User.find(filter).populate('inventory.coin');
+
+        const results = users.map(user => {
+            let holdingsValue = 0;
+            user.inventory.forEach(item => {
+                holdingsValue += item.amount * item.coin.price;
+            });
+            return {
+                username: user.username,
+                balance: user.balance,
+                netWorth: user.balance + holdingsValue
+            };
+        }).filter(u => u.netWorth >= min && u.netWorth <= max);
+
+        res.json(results);
+    } catch (err) {
+        console.log('user search failed', err);
+        res.status(500).json({ error: 'server error' });
+    }
+};
+
+const users_index = (req, res) => { res.render('users', {account: req.user}); };
+
 module.exports = {
     username_post,
     password_post,
-    delete_post
+    delete_post,
+    search_users,
+    users_index
 };
