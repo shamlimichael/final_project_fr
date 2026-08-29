@@ -152,7 +152,7 @@ document.getElementById('password_form').addEventListener('submit', async (e) =>
 
 document.getElementById('delete_form').addEventListener('submit', async (e) => {
     e.preventDefault();
-    if (!confirm('Delete your account permanently? This cannot be undone.')) return;
+    if (!confirm('If you give up you are a chud.')) return;
     const res = await fetch('/settings/delete', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -161,4 +161,8 @@ document.getElementById('delete_form').addEventListener('submit', async (e) => {
     const data = await res.json();
     if (data.error) return showMsg(data.error, true);
     window.location.href = '/login';
+});
+
+document.querySelector('.profile_btn').addEventListener('click', () => {
+    window.location.href = '/users';
 });
