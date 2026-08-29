@@ -582,76 +582,8 @@ body {
     color: white; 
 }
 
-.modal_overlay {
-    position: fixed;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 200;
-}
-
-.modal_box {
-    background-color: rgb(32, 32, 32);
-    border: 2px solid rgb(50, 50, 50);
-    border-radius: 12px;
-    padding: 30px;
-    width: 90vw;
-    max-width: 500px;
-}
-
-.modal_header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 25px;
-}
-
-.close_modal {
-    background: none;
-    border: none;
-    color: white;
-    font-size: 20px;
-    cursor: pointer;
-}
-
-.modal_box form {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding-bottom: 25px;
-    margin-bottom: 25px;
-    border-bottom: 2px solid rgb(50, 50, 50);
-}
-
-.modal_box form:last-of-type {
-    border-bottom: none;
-    margin-bottom: 0;
-    padding-bottom: 0;
-}
-
-.modal_box input {
-    width: 100%;
-    padding: 10px;
-    background-color: rgb(23, 23, 23);
-    border: 2px solid rgb(50, 50, 50);
-    border-radius: 8px;
-    color: white;
-    font-size: 15px;
-    outline: none;
-    transition: border-color 0.2s ease;
-}
-
-
-.setting_button {
-    background-color: white;
-    color: rgb(23, 23, 23);
-    border: none;
-    padding: 10px;
-    font-size: 16px;
-    font-weight: 700;
-    cursor: pointer;
-    transition: background-color 0.1s ease;
-    margin-top: auto; 
+a.trade_btn {
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
 }

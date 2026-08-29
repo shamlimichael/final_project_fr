@@ -2,7 +2,7 @@ const express = require('express');
 require('dotenv').config();
 const mongoose = require('mongoose');
 const session = require('express-session');
-const { MongoStore } = require('connect-mongo');
+const MongoStore = require('connect-mongo');
 const User = require('./models/user');
 const authRoutes = require('./routes/authRoutes');
 const pageRoutes = require('./routes/pageRoutes');
@@ -26,10 +26,9 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
 app.use(session({
-    secret: process.env.SESSION_SECRET,
+    secret: 'your-secret-key',
     resave: false,
-    saveUninitialized: false,
-    store: MongoStore.create({ mongoUrl: process.env.API_KEY })
+    saveUninitialized: false
 }));
 
 const requireAuth = async (req, res, next) => {
