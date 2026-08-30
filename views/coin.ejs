@@ -39,7 +39,7 @@
                     <div class="coin_price_row">
                         <h2 class="coin_price">$<%= coin.price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></h2>
                         <span class="coin_change <%= coin.change24h >= 0 ? 'text_green' : 'text_red' %>">
-                            <%= coin.change24h > 0 ? '+' : '' %><%= coin.change24h %>%
+                            <%= coin.change24h > 0 ? '+' : '' %>0.000%
                         </span>
                     </div>
                 </div>
@@ -48,19 +48,20 @@
 
         <div class="coin_layout">
 
-        <div class="portfolio_box coin_graph_panel">
-            <div class="graph_panel_header">
-                <h3 class="box_title">Price Chart</h3>
-                <div class="timeframe_container">
-                    <button class="tf_btn active" data-tf="1m">1M</button>
-                    <button class="tf_btn" data-tf="10m">10M</button>
-                    <button class="tf_btn" data-tf="1h">1H</button>
+            <div class="portfolio_box coin_graph_panel">
+                <div class="graph_panel_header">
+                    <h3 class="box_title">Price Chart</h3>
+                    <div class="timeframe_container">
+                        <button class="tf_btn active" data-tf="1m">1M</button>
+                        <button class="tf_btn" data-tf="10m">10M</button>
+                        <button class="tf_btn" data-tf="1h">1H</button>
+                    </div>
+                </div>
+                <div class="graph_placeholder">
+                    <canvas id="coinChart"></canvas>
                 </div>
             </div>
-            <div class="graph_placeholder">
-                <canvas id="coinChart"></canvas>
-            </div>
-        </div>
+
             <div class="coin_right_col">
 
                 <div class="portfolio_box coin_stats_panel">
@@ -76,17 +77,19 @@
                         </div>
                         <div class="stat_row">
                             <span class="stat_row_label">Current Price</span>
-                            <span class="stat_row_value">$<%= coin.price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></span>
+                            <span class="stat_row_value" id="stat_current_price">$<%= coin.price.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></span>
                         </div>
                         <div class="stat_row">
-                            <span class="stat_row_label">24h Change</span>
-                            <span class="stat_row_value <%= coin.change24h >= 0 ? 'text_green' : 'text_red' %>">
-                                <%= coin.change24h > 0 ? '+' : '' %><%= coin.change24h %>%
-                            </span>
+                            <span class="stat_row_label">1min Change</span>
+                            <span class="stat_row_value <%= coin.change24h >= 0 ? 'text_green' : 'text_red' %>" id="stat_1min_change">0.00%</span>
                         </div>
                         <div class="stat_row">
                             <span class="stat_row_label">Owned</span>
-                            <span class="stat_row_value" id="owned_amount"><!-- amount goes here --></span>
+                            <% 
+                               const ownedItem = user.inventory.find(item => item.coin.ticker === coin.ticker);
+                               const ownedAmount = ownedItem ? ownedItem.amount : 0;
+                            %>
+                            <span class="stat_row_value" id="owned_amount"><%= ownedAmount %> <%= coin.ticker %></span>
                         </div>
                         <div class="stat_row">
                             <span class="stat_row_label">Status</span>
@@ -102,22 +105,24 @@
                         <span class="amount_value" id="trade_value">----</span>
                     </div>
                     <div class="coin_action_btns">
-                        <button class="trade_btn coin_action_btn">Buy</button>
-                        <button class="sell_btn coin_action_btn">Sell</button>
+                        <button class="trade_btn coin_action_btn" id="buy">Buy</button>
+                        <button class="sell_btn coin_action_btn" id="sell">Sell</button>
                     </div>
                 </div>
 
             </div>
-        </div> 
+        </div>
     </main>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        <script>
-            const COIN_TICKER       = "<%= coin.ticker %>";
-            const COIN_PRICE        = <%= coin.price %>;
-            const PRICE_HISTORY     = <%- JSON.stringify(priceHistory) %>;
-            const PRICE_HISTORY_10M = <%- JSON.stringify(priceHistoryTenMin) %>;
-            const PRICE_HISTORY_1H  = <%- JSON.stringify(priceHistoryHour) %>;
-        </script>
-        <script src="/coin.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const COIN_TICKER       = "<%= coin.ticker %>";
+        const COIN_PRICE        = <%= coin.price %>;
+        const USER_BALANCE      = <%= user.balance %>;
+        const PRICE_HISTORY     = <%- JSON.stringify(priceHistory) %>;
+        const PRICE_HISTORY_10M = <%- JSON.stringify(priceHistoryTenMin) %>;
+        const PRICE_HISTORY_1H  = <%- JSON.stringify(priceHistoryHour) %>;
+    </script>
+    <script src="/coin.js"></script>
 </body>
 </html>

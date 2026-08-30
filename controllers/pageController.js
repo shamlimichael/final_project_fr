@@ -75,11 +75,93 @@ const coin_index = async (req, res) => {
 };
 
 
+const trade_post = async (req, res) => {
+    try {
+        const { ticker, amount, type } = req.body;
+ 
+        if (!ticker || !amount || !type || amount <= 0) {
+            return res.status(400).json({ error: 'Invalid trade parameters' });
+        }
+ 
+        const coin = await Coin.findOne({ ticker: ticker.toUpperCase() });
+        if (!coin) return res.status(404).json({ error: 'Coin not found' });
+ 
+        const user = await User.findById(req.user._id).populate('inventory.coin');
+        const totalCost = amount * coin.price;
+ 
+        if (type === 'buy') {
+            if (user.balance < totalCost) {
+                return res.json({ error: 'Insufficient funds' });
+            }
+ 
+            user.balance = Number((user.balance - totalCost).toFixed(2));
+ 
+            const existingItem = user.inventory.find(item => item.coin._id.equals(coin._id));
+            if (existingItem) {
+                const newTotal = existingItem.amount + amount;
+                existingItem.avgBuyPrice = ((existingItem.avgBuyPrice * existingItem.amount) + totalCost) / newTotal;
+                existingItem.amount = newTotal;
+            } else {
+                user.inventory.push({ coin: coin._id, amount, avgBuyPrice: coin.price });
+            }
+ 
+            await user.save();
+ 
+            await Transaction.create({
+                user: user._id,
+                amount,
+                price: coin.price,
+                coinType: coin._id,
+                transactionType: 'buy'
+            });
+ 
+            const updatedItem = user.inventory.find(item => item.coin._id.equals(coin._id));
+            return res.json({ newOwned: updatedItem.amount, newBalance: user.balance });
+        }
+ 
+        if (type === 'sell') {
+            const existingItem = user.inventory.find(item => item.coin._id.equals(coin._id));
+ 
+            if (!existingItem || existingItem.amount < amount) {
+                return res.json({ error: 'Insufficient coins' });
+            }
+ 
+            user.balance = Number((user.balance + totalCost).toFixed(2));
+            existingItem.amount -= amount;
+ 
+            if (existingItem.amount === 0) {
+                user.inventory = user.inventory.filter(item => !item.coin._id.equals(coin._id));
+            }
+ 
+            await user.save();
+ 
+            await Transaction.create({
+                user: user._id,
+                amount,
+                price: coin.price,
+                coinType: coin._id,
+                transactionType: 'sell'
+            });
+ 
+            const updatedItem = user.inventory.find(item => item.coin._id.equals(coin._id));
+            return res.json({ newOwned: updatedItem ? updatedItem.amount : 0, newBalance: user.balance });
+        }
+ 
+        return res.status(400).json({ error: 'Invalid trade type' });
+ 
+    } catch (err) {
+        console.log('trade error', err);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+ 
+
 
 module.exports = {
     main_index,
     prices_get,
     coin_get,
     about_index,
-    coin_index
+    coin_index,
+    trade_post
 };
