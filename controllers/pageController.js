@@ -155,7 +155,17 @@ const trade_post = async (req, res) => {
     }
 };
  
-
+const realprices_get = async (req, res) => {
+    try {
+        const url = 'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana,cardano&vs_currencies=usd&include_24hr_change=true';
+        const response = await fetch(url);
+        const data = await response.json();
+        res.json(data);
+    } catch (err) {
+        console.log('coingecko failed', err);
+        res.status(500).json({ error: 'could not fetch real prices' });
+    }
+};
 
 module.exports = {
     main_index,
@@ -163,5 +173,6 @@ module.exports = {
     coin_get,
     about_index,
     coin_index,
-    trade_post
+    trade_post,
+    realprices_get
 };

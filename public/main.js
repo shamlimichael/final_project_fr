@@ -158,9 +158,10 @@ document.querySelector('.profile_btn').addEventListener('click', () => {
 
 document.querySelectorAll('.watch_btn').forEach(btn => {
     btn.addEventListener('click', async (e) => {
+        if (btn.disabled) return;
+        btn.disabled = true;
         const card = e.target.closest('.coin_card');
         const coinId = card.getAttribute('data-id');
-
         const ticker = card.querySelector('.coin_ticker').textContent;
         const name = card.querySelector('.coin_name').textContent;
         const logo = card.querySelector('.coin_logo').src;
@@ -175,7 +176,6 @@ document.querySelectorAll('.watch_btn').forEach(btn => {
             if (!data.ok) return;
 
             btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 8 L6.5 12 L13 4" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>';
-            btn.disabled = true;
 
             const row = document.createElement('div');
             row.className = 'list_row';
@@ -224,3 +224,37 @@ document.querySelector('.watchlist_list').addEventListener('click', async (e) =>
         console.log('watchlist remove failed', err);
     }
 });
+
+const realMarket = document.getElementById('real_market');
+
+const loadRealPrices = async () => {
+    try {
+        const res = await fetch('/api/realprices');
+        const data = await res.json();
+        if (data.error) return;
+
+        realMarket.innerHTML = '';
+
+        Object.keys(data).forEach(id => {
+            const coin = data[id];
+            const change = coin.usd_24h_change || 0;
+            const card = document.createElement('div');
+            card.className = 'coin_card';
+            card.innerHTML = `
+                <div class="coin_header">
+                    <h3 class="coin_name">${id.charAt(0).toUpperCase() + id.slice(1)}</h3>
+                </div>
+                <div class="coin_data">
+                    <h2 class="coin_price">$${coin.usd.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2})}</h2>
+                    <span class="coin_change ${change >= 0 ? 'text_green' : 'text_red'}">${change > 0 ? '+' : ''}${change.toFixed(2)}%</span>
+                </div>
+            `;
+            realMarket.appendChild(card);
+        });
+    } catch (err) {
+        console.log('real prices failed', err);
+    }
+};
+
+loadRealPrices();
+setInterval(loadRealPrices, 60000);
