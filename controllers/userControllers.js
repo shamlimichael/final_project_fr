@@ -93,10 +93,36 @@ const search_users = async (req, res) => {
 
 const users_index = (req, res) => { res.render('users', {account: req.user}); };
 
+const watchlist_add = async (req, res) => {
+    try {
+        await User.updateOne(
+            { _id: req.user._id },
+            { $addToSet: { watchlist: req.params.id } }
+        );
+        res.json({ ok: true });
+    } catch (err) {
+        res.status(500).json({ error: 'server error' });
+    }
+};
+
+const watchlist_remove = async (req, res) => {
+    try {
+        await User.updateOne(
+            { _id: req.user._id },
+            { $pull: { watchlist: req.params.id } }
+        );
+        res.json({ ok: true });
+    } catch (err) {
+        res.status(500).json({ error: 'server error' });
+    }
+};
+
 module.exports = {
     username_post,
     password_post,
     delete_post,
     search_users,
-    users_index
+    users_index,
+    watchlist_add,
+    watchlist_remove
 };

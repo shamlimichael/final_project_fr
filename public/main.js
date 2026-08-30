@@ -63,17 +63,6 @@ searchInput.addEventListener('input', (e) => {
     });
 });
 
-const removeButtons = document.querySelectorAll('.remove_btn');
-
-removeButtons.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-        const row = e.target.closest('.list_row');
-        if (row) {
-            row.remove();
-        }
-    });
-});
-
 const logoBtn = document.querySelector('.logo');
 
 logoBtn.addEventListener('click', () => {
@@ -165,4 +154,73 @@ document.getElementById('delete_form').addEventListener('submit', async (e) => {
 
 document.querySelector('.profile_btn').addEventListener('click', () => {
     window.location.href = '/users';
+});
+
+document.querySelectorAll('.watch_btn').forEach(btn => {
+    btn.addEventListener('click', async (e) => {
+        const card = e.target.closest('.coin_card');
+        const coinId = card.getAttribute('data-id');
+
+        const ticker = card.querySelector('.coin_ticker').textContent;
+        const name = card.querySelector('.coin_name').textContent;
+        const logo = card.querySelector('.coin_logo').src;
+        const price = card.querySelector('.coin_price').textContent;
+        const changeEl = card.querySelector('.coin_change');
+        const isUp = changeEl.classList.contains('text_green');
+        const change = changeEl.textContent.trim();
+
+        try {
+            const res = await fetch(`/watchlist/${coinId}`, { method: 'POST' });
+            const data = await res.json();
+            if (!data.ok) return;
+
+            btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 8 L6.5 12 L13 4" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>';
+            btn.disabled = true;
+
+            const row = document.createElement('div');
+            row.className = 'list_row';
+            row.setAttribute('data-id', coinId);
+            row.innerHTML = `
+                <div class="row_left">
+                    <img src="${logo}" alt="logo" class="coin_logo">
+                    <h3 class="coin_name">${name}</h3>
+                    <span class="coin_ticker">${ticker}</span>
+                </div>
+                <div class="row_center">
+                    <span class="coin_price" data-ticker="${ticker}" style="font-size: 18px; font-weight: 700;">${price}</span>
+                    <span class="coin_change ${isUp ? 'text_green' : 'text_red'}" data-ticker="${ticker}" style="font-weight: 700;">${change}</span>
+                </div>
+                <div class="row_right">
+                    <a href="/coin/${ticker}" class="trade_btn" style="padding: 8px 15px; font-size: 14px;">Trade</a>
+                    <button class="remove_btn" style="padding: 8px 12px; font-size: 14px;">✕</button>
+                </div>
+            `;
+            document.querySelector('.watchlist_list').appendChild(row);
+        } catch (err) {
+            console.log('watchlist add failed', err);
+        }
+    });
+});
+
+document.querySelector('.watchlist_list').addEventListener('click', async (e) => {
+    if (!e.target.classList.contains('remove_btn')) return;
+    const row = e.target.closest('.list_row');
+    const coinId = row.getAttribute('data-id');
+
+    try {
+        const res = await fetch(`/watchlist/${coinId}`, { method: 'DELETE' });
+        const data = await res.json();
+        if (data.ok) {
+            row.remove();
+
+            const card = document.querySelector(`.coin_card[data-id="${coinId}"]`);
+            if (card) {
+                const btn = card.querySelector('.watch_btn');
+                btn.textContent = '+';
+                btn.disabled = false;
+            }
+        }
+    } catch (err) {
+        console.log('watchlist remove failed', err);
+    }
 });

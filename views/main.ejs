@@ -65,7 +65,7 @@
             <h2 class="section_title">Live Market</h2>
             <div class="market_grid">
                 <% coins.forEach(coin => { %>
-                    <div class="coin_card">
+                    <div class="coin_card" data-id="<%= coin.id %>">
                         <div class="coin_header">
                             <div class="coin_title_wrap">
                                 <img src="<%= coin.logo %>" alt="<%= coin.ticker %> logo" class="coin_logo">
@@ -80,7 +80,17 @@
                                 <%= coin.change24h > 0 ? '+' : '' %><%= coin.change24h %>%
                             </span>
                         </div>
-                        <a href="/coin/<%= coin.ticker %>" class="trade_btn">Trade</a>
+                        <div class="coin_buttons">
+                            <a href="/coin/<%= coin.ticker %>" class="trade_btn" id="trade_explore">Trade</a>
+                            <% const watched = user.watchlist.some(w => w._id.toString() === coin._id.toString()); %>
+                            <button<button class="watch_btn" type="button" <%= watched ? 'disabled' : '' %>>
+                                <% if (watched) { %>
+                                    <svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 8 L6.5 12 L13 4" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>
+                                <% } else { %>
+                                    +
+                                <% } %>
+                            </button>
+                        </div>
                     </div>
                 <% }) %> 
             </div>
@@ -214,7 +224,7 @@
                     <h3 class="box_title">Your Watchlist</h3>
                     <div class="watchlist_list">
                         <% user.watchlist.forEach(coin => { %>
-                            <div class="list_row">
+                            <div class="list_row" data-id="<%= coin._id %>">
                                 <div class="row_left">
                                     <img src="<%= coin.logo %>" alt="logo" class="coin_logo">
                                     <h3 class="coin_name"><%= coin.name %></h3>

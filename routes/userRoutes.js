@@ -13,4 +13,8 @@ router.get('/users/search', userController.search_users);
 
 router.get('/users', userController.users_index);
 
+router.post('/watchlist/:id', userController.watchlist_add);
+
+router.delete('/watchlist/:id', userController.watchlist_remove);
+
 module.exports = router;
