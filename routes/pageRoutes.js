@@ -9,5 +9,6 @@ router.get('/about', pageController.about_index);
 router.get('/coin/:ticker', pageController.coin_index);
 router.get('/api/coin/:ticker', pageController.coin_get);
 router.post('/api/trade', pageController.trade_post);
+router.get('/api/realprices', pageController.realprices_get);
 
 module.exports = router;
