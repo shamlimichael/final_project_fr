@@ -691,3 +691,9 @@ a.trade_btn {
 #trade_explore{
     width: 90%;
 }
+
+a.sell_btn {
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+}
