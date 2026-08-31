@@ -210,42 +210,6 @@ select:focus {
     transform: translateY(0%) scale(2.2) !important;
 }
 
-#google_signup {
-    width: 100%;
-    padding: 0.8rem;
-    font-size: 1.4rem;
-    margin-bottom: 1.7rem;
-    margin-top: 1.2rem;
-    border: 0.1rem solid rgb(147, 147, 147);
-    border-radius: 0.8rem;
-    background-color: rgb(23, 23, 23);
-    font-family: 'Mulish', sans-serif;
-    color: rgb(147, 147, 147);
-    outline: none;
-    box-sizing: border-box;
-    cursor: pointer;
-    transition: border-color 0.3s ease, border-radius 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
-#google_signup:hover {
-    border-color: white;
-    border-radius: 2rem;
-}
-
-#google-logo {
-    position: absolute;
-    right: 1.2rem;
-    top: 50%;
-    transform: translateY(-45%);
-    width: 1.5rem;
-    height: 1.5rem;
-    object-fit: contain;
-}
-
 .highlight { color: rgb(76, 160, 128); }
 
 #log{
