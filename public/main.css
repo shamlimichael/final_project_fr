@@ -724,3 +724,34 @@ a.trade_btn {
     border-color:  rgb(216, 216, 216);
     color: rgb(216, 216, 216);
 }
+
+#following_box {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#following_tx_feed {
+    flex: 1;
+    max-height: none;
+}
+
+#following_tx_feed .tx_type {
+    font-size: 15px;
+}
+
+#following_tx_feed .tx_name {
+    font-size: 19px;
+}
+
+#following_tx_feed .tx_date {
+    font-size: 15px;
+}
+
+#following_tx_feed .tx_amount {
+    font-size: 19px;
+}
+
+#following_tx_feed .tx_total {
+    font-size: 19px;
+}

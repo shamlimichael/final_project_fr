@@ -21,4 +21,6 @@ router.post('/follow/:id', userController.follow_add);
 
 router.delete('/follow/:id', userController.follow_remove);
 
+router.get('/follow/transactions', userController.following_transactions);
+
 module.exports = router;

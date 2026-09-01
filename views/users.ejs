@@ -16,20 +16,30 @@
         <div class="top_right">
             <span class="nav_link">Your username: <%= account.username %> </span>
             <span class="balance_label">Balance: $<%= account.balance.toLocaleString() %></span>
-            
         </div>
     </header>
     <main class="dashboard_main" style="margin-top: 80px;">
         <h2 class="section_title">Find Traders</h2>
 
-        <form id="user_search_form" style="display: flex; gap: 10px; margin-bottom: 40px;">
-            <input type="text" id="search_username" placeholder="username" class="search_input">
-            <input type="number" id="search_min" placeholder="min net worth" class="search_input">
-            <input type="number" id="search_max" placeholder="max net worth" class="search_input">
-            <button type="submit" class="trade_btn">Search</button>
-        </form>
+        <div class="portfolio_grid">
+            <div class="portfolio_left">
+                <form id="user_search_form" style="display: flex; gap: 10px;">
+                    <input type="text" id="search_username" placeholder="username" class="search_input">
+                    <input type="number" id="search_min" placeholder="min net worth" class="search_input">
+                    <input type="number" id="search_max" placeholder="max net worth" class="search_input">
+                    <button type="submit" class="trade_btn">Search</button>
+                </form>
 
-        <div class="leaderboard_list" id="user_results"></div>
+                <div class="leaderboard_list" id="user_results"></div>
+            </div>
+
+            <div class="portfolio_right">
+                <div class="portfolio_box" id="following_box">
+                    <h3 class="box_title">Following Activity</h3>
+                    <div class="activity_feed" id="following_tx_feed"></div>
+                </div>
+            </div>
+        </div>
     </main>
     <script src="users.js"></script>
 </body>

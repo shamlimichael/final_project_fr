@@ -6,6 +6,7 @@ logoBtn.addEventListener('click', () => {
 
 const form = document.getElementById('user_search_form');
 const results = document.getElementById('user_results');
+const txFeed = document.getElementById('following_tx_feed');
 
 const runSearch = async () => {
     const params = new URLSearchParams({
@@ -34,10 +35,9 @@ const runSearch = async () => {
                     <span class="coin_name">${user.username}</span>
                     <span style="color: white;">Cash: $${user.balance.toFixed(2)}</span>
                 </div>
-                <div class="row_center">
-                    <span class="text_green" style="font-size: 18px; font-weight: 800;">$${user.netWorth.toFixed(2)}</span>
-                </div>
+                <div class="row_center"></div>
                 <div class="row_right">
+                    <span class="text_green" style="font-size: 18px; font-weight: 800;">$${user.netWorth.toFixed(2)}</span>
                     <button class="follow_btn${user.isFollowing ? ' following' : ''}" data-id="${user._id}">${user.isFollowing ? 'Following' : 'Follow'}</button>
                 </div>
             `;
@@ -45,6 +45,49 @@ const runSearch = async () => {
         });
     } catch (err) {
         results.innerHTML = '<p style="color: white;">Search failed.</p>';
+    }
+};
+
+const loadFollowingFeed = async () => {
+    try {
+        const res = await fetch('/follow/transactions');
+        const txs = await res.json();
+
+        if (!res.ok) {
+            txFeed.innerHTML = `<p style="color: white;">${txs.error || 'Could not load activity.'}</p>`;
+            return;
+        }
+
+        txFeed.innerHTML = '';
+
+        if (txs.length === 0) {
+            txFeed.innerHTML = '<p style="color: white;">No activity yet.</p>';
+            return;
+        }
+
+        txs.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+        txs.forEach(tx => {
+            const row = document.createElement('div');
+            row.className = 'tx_row';
+            row.innerHTML = `
+                <div class="tx_left">
+                    <span class="tx_type ${tx.type === 'buy' ? 'tx_buy' : 'tx_sell'}">${tx.type.toUpperCase()}</span>
+                    <div class="tx_details">
+                        <span class="tx_name">${tx.username} - ${tx.coinTicker}</span>
+                        <span class="tx_date">${new Date(tx.date).toLocaleString()}</span>
+                    </div>
+                </div>
+                <div class="tx_right">
+                    <span class="tx_amount">${tx.amount}</span>
+                    <span class="tx_total">$${tx.total.toFixed(2)}</span>
+                </div>
+            `;
+            txFeed.appendChild(row);
+        });
+    } catch (err) {
+        console.log('loadFollowingFeed failed', err);
+        txFeed.innerHTML = '<p style="color: white;">Could not load activity.</p>';
     }
 };
 
@@ -57,16 +100,11 @@ results.addEventListener('click', async (e) => {
 
     try {
         const res = await fetch('/follow/' + id, { method: isFollowing ? 'DELETE' : 'POST' });
-        const data = await res.json();
-        if (data.error) return;
+        if (!res.ok) return;
 
-        if (isFollowing) {
-            btn.classList.remove('following');
-            btn.textContent = 'Follow';
-        } else {
-            btn.classList.add('following');
-            btn.textContent = 'Following';
-        }
+        btn.classList.toggle('following');
+        btn.textContent = btn.classList.contains('following') ? 'Following' : 'Follow';
+        loadFollowingFeed();
     } catch (err) {
         console.log('follow toggle failed', err);
     }
@@ -78,3 +116,4 @@ form.addEventListener('submit', (e) => {
 });
 
 runSearch();
+loadFollowingFeed();
