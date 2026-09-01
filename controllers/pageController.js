@@ -23,12 +23,12 @@ const getTopUsers = async () => {
 const main_index = async (req, res) => {
     const coins = await Coin.find();
     const transactions = await Transaction.find({ user: req.user._id }).populate('coinType').sort({ createdAt: -1 });
-    res.render('main', {
-        user: req.user,
-        coins: coins,
-        topUsers: await getTopUsers(),
-        transactions: transactions
-    });
+
+    req.user.inventory = req.user.inventory.filter(item => item.coin);
+    req.user.watchlist = req.user.watchlist.filter(c => c);
+    const safeTx = transactions.filter(tx => tx.coinType);
+
+    res.render('main', { user: req.user, coins, topUsers: await getTopUsers(), transactions: safeTx });
 };
 
 const prices_get = async (req, res) => {

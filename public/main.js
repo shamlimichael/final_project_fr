@@ -158,7 +158,10 @@ document.querySelector('.profile_btn').addEventListener('click', () => {
 
 document.querySelectorAll('.watch_btn').forEach(btn => {
     btn.addEventListener('click', async (e) => {
-        if (btn.disabled) return;
+        if (btn.disabled){
+            btn.disabled = false;
+            return;
+        };
         btn.disabled = true;
         const card = e.target.closest('.coin_card');
         const coinId = card.getAttribute('data-id');
