@@ -67,7 +67,7 @@ const search_users = async (req, res) => {
         const min = Number(req.query.min) || 0;
         const max = Number(req.query.max) || Infinity;
 
-        const filter = {};
+        const filter = { _id: { $ne: req.user._id } };
         if (name) filter.username = { $regex: name, $options: 'i' };
 
         const users = await User.find(filter).populate('inventory.coin');
@@ -78,9 +78,11 @@ const search_users = async (req, res) => {
                 holdingsValue += item.amount * item.coin.price;
             });
             return {
+                _id: user._id,
                 username: user.username,
                 balance: user.balance,
-                netWorth: user.balance + holdingsValue
+                netWorth: user.balance + holdingsValue,
+                isFollowing: req.user.follow.some(f => f.equals(user._id))
             };
         }).filter(u => u.netWorth >= min && u.netWorth <= max);
 
@@ -117,6 +119,56 @@ const watchlist_remove = async (req, res) => {
     }
 };
 
+const follow_add = async (req, res) => {
+    try {
+        await User.updateOne(
+            { _id: req.user._id },
+            { $addToSet: { follow: req.params.id } }
+        );
+        res.json({ ok: true });
+    } catch (err) {
+        res.status(500).json({ error: 'server error' });
+    }
+};
+
+const follow_remove = async (req, res) => {
+    try {
+        await User.updateOne(
+            { _id: req.user._id },
+            { $pull: { follow: req.params.id } }
+        );
+        res.json({ ok: true });
+    } catch (err) {
+        res.status(500).json({ error: 'server error' });
+    }
+};
+
+
+const following_transactions = async (req, res) => {
+    try {
+        const txs = await Transaction.find({ user: { $in: req.user.follow } })
+            .sort({ createdAt: -1 })
+            .limit(50)
+            .populate('user', 'username')
+            .populate('coinType');
+
+        const results = txs.map(tx => ({
+            username: tx.user.username,
+            type: tx.transactionType,
+            coinTicker: tx.coinType.ticker,
+            amount: tx.amount,
+            price: tx.price,
+            total: tx.amount * tx.price,
+            date: tx.createdAt
+        }));
+
+        res.json(results);
+    } catch (err) {
+        console.log('following transactions fetch failed', err);
+        res.status(500).json({ error: 'server error' });
+    }
+};
+
 module.exports = {
     username_post,
     password_post,
@@ -124,5 +176,8 @@ module.exports = {
     search_users,
     users_index,
     watchlist_add,
-    watchlist_remove
+    watchlist_remove,
+    follow_add,
+    follow_remove,
+    following_transactions
 };

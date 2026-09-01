@@ -454,6 +454,10 @@ body {
     padding-right: 10px;
 }
 
+#user_results{
+    width: 1200px;
+}
+
 .list_row {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
@@ -692,6 +696,64 @@ a.trade_btn {
     width: 90%;
 }
 
+.follow_btn {
+    background-color: rgb(76, 160, 128);
+    color: white;
+    border: 2px solid rgb(76, 160, 128);
+    padding: 8px 16px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.1s ease, border-color 0.1s ease, color 0.1s ease;
+}
+ 
+.follow_btn:hover {
+    background-color: rgb(91, 196, 157);
+    border-color: rgb(91, 196, 157);
+}
+ 
+.follow_btn.following {
+    background-color: rgb(23, 23, 23);
+    color: rgb(150, 150, 150);
+    border-color: rgb(150, 150, 150);
+}
+ 
+.follow_btn.following:hover {
+    background-color: rgb(23, 23, 23);
+    border-color:  rgb(216, 216, 216);
+    color: rgb(216, 216, 216);
+}
+
+#following_box {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+#following_tx_feed {
+    flex: 1;
+    max-height: none;
+}
+
+#following_tx_feed .tx_type {
+    font-size: 15px;
+}
+
+#following_tx_feed .tx_name {
+    font-size: 19px;
+}
+
+#following_tx_feed .tx_date {
+    font-size: 15px;
+}
+
+#following_tx_feed .tx_amount {
+    font-size: 19px;
+}
+
+#following_tx_feed .tx_total {
+    font-size: 19px;
 a.sell_btn {
     display: inline-block;
     text-decoration: none;

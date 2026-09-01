@@ -17,4 +17,10 @@ router.post('/watchlist/:id', userController.watchlist_add);
 
 router.delete('/watchlist/:id', userController.watchlist_remove);
 
+router.post('/follow/:id', userController.follow_add);
+
+router.delete('/follow/:id', userController.follow_remove);
+
+router.get('/follow/transactions', userController.following_transactions);
+
 module.exports = router;
