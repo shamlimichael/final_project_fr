@@ -224,3 +224,7 @@ sellBtn.addEventListener('click', async () => {
         updateUI(data);
     }
 });
+
+document.querySelector('.profile_btn').addEventListener('click', () => {
+    window.location.href = '/users';
+});

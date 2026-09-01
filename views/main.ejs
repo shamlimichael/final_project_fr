@@ -19,7 +19,6 @@
         </div>
         <div class="top_center">
             <input type="text" class="search_input" placeholder="Search coins...">
-            <a href="#" class="nav_link">News</a>
             <a href="/about" class="nav_link">About us</a>
         </div>
         <div class="top_right">
@@ -132,7 +131,7 @@
                                         </span>
                                     </div>
                                     
-                                    <button class="sell_btn">Sell</button>
+                                    <a href="/coin/<%= item.coin.ticker %>" class="sell_btn">Sell</a>
                                 </div>
                             <% }) %>
                         </div>
