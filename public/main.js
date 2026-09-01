@@ -9,20 +9,28 @@ menuBtn.addEventListener('click', () => {
 
 
 const searchInput = document.querySelector('.search_input');
+const minInput = document.getElementById('min_price');
+const maxInput = document.getElementById('max_price');
 const exploreBtn = document.querySelector('.explore_btn');
 const exploreCards = document.querySelectorAll('#explore_section .coin_card');
 let navButtons = document.querySelectorAll('.sidebar_btn[data-target]');
 let allSections = document.querySelectorAll('.dashboard_section');
+
+const clearFilters = () => {
+    searchInput.value = '';
+    minInput.value = '';
+    maxInput.value = '';
+    exploreCards.forEach(card => {
+        card.style.display = 'flex';
+    });
+};
 
 navButtons.forEach(btn => {
     btn.addEventListener('click', () => {
         const targetId = btn.getAttribute('data-target');
 
         if (targetId !== 'explore_section') {
-            searchInput.value = '';
-            exploreCards.forEach(card => {
-                card.style.display = 'flex';
-            });
+            clearFilters();
         }
         navButtons.forEach(b => b.classList.remove('active_btn'));
         btn.classList.add('active_btn');
@@ -35,7 +43,7 @@ const toggleOptions = document.querySelectorAll('.toggle_opt');
 toggleOptions.forEach(opt => {
     opt.addEventListener('click', (e) => {
         const card = e.target.closest('.stat_card');
-        const selectedVal = e.target.getAttribute('data-val'); 
+        const selectedVal = e.target.getAttribute('data-val');
         card.querySelectorAll('.toggle_opt').forEach(btn => btn.classList.remove('active'));
         e.target.classList.add('active');
         card.querySelectorAll('.pl_stat').forEach(stat => stat.classList.add('hidden_section'));
@@ -43,32 +51,35 @@ toggleOptions.forEach(opt => {
     });
 });
 
-searchInput.addEventListener('input', (e) => {
-    const searchTerm = e.target.value.toLowerCase().trim();
+const filterCoins = () => {
+    const term = searchInput.value.toLowerCase().trim();
+    const min = Number(minInput.value) || 0;
+    const max = Number(maxInput.value) || Infinity;
+
     const exploreSection = document.getElementById('explore_section');
-    
-    if (exploreSection.classList.contains('hidden_section') && searchTerm.length > 0) {
-        exploreBtn.click(); 
-    }
-    
+    if (exploreSection.classList.contains('hidden_section')) exploreBtn.click();
+
     exploreCards.forEach(card => {
-        const coinName = card.querySelector('.coin_name').textContent.toLowerCase();
-        const coinTicker = card.querySelector('.coin_ticker').textContent.toLowerCase();
-        
-        if (coinName.includes(searchTerm) || coinTicker.includes(searchTerm)) {
-            card.style.display = 'flex';
-        } else {
-            card.style.display = 'none';
-        }
+        const name = card.querySelector('.coin_name').textContent.toLowerCase();
+        const ticker = card.querySelector('.coin_ticker').textContent.toLowerCase();
+        const price = Number(card.querySelector('.coin_price').textContent.replace(/[$,]/g, ''));
+
+        const matchesText = name.includes(term) || ticker.includes(term);
+        const matchesPrice = price >= min && price <= max;
+
+        card.style.display = (matchesText && matchesPrice) ? 'flex' : 'none';
     });
-});
+};
+
+searchInput.addEventListener('input', filterCoins);
+minInput.addEventListener('input', filterCoins);
+maxInput.addEventListener('input', filterCoins);
 
 const logoBtn = document.querySelector('.logo');
 
 logoBtn.addEventListener('click', () => {
     exploreBtn.click();
-    searchInput.value = '';
-    exploreCards.forEach(card => card.style.display = 'flex');
+    clearFilters();
 });
 
 const refreshPrices = async () => {
@@ -96,10 +107,10 @@ settingsBtn.addEventListener('click', () => {
 });
 document.querySelector('.close_modal').addEventListener('click', () => {
     settingsModal.classList.add('hidden_section');
-    document.querySelector('#new_username').value = '';
-    document.querySelector('#current_password').value = '';
-    document.querySelector('#new_password').value = '';
-    document.querySelector('#delete_password').value = '';
+    document.getElementById('username_form').reset();
+    document.getElementById('password_form').reset();
+    document.getElementById('delete_form').reset();
+    settingsMsg.textContent = '';
 });
 
 const settingsMsg = document.getElementById('settings_msg');
@@ -157,13 +168,11 @@ document.querySelector('.profile_btn').addEventListener('click', () => {
 });
 
 document.querySelectorAll('.watch_btn').forEach(btn => {
-    btn.addEventListener('click', async (e) => {
-        if (btn.disabled){
-            btn.disabled = false;
-            return;
-        };
+    btn.addEventListener('click', async () => {
+        if (btn.disabled) return;
         btn.disabled = true;
-        const card = e.target.closest('.coin_card');
+
+        const card = btn.closest('.coin_card');
         const coinId = card.getAttribute('data-id');
         const ticker = card.querySelector('.coin_ticker').textContent;
         const name = card.querySelector('.coin_name').textContent;
@@ -176,9 +185,14 @@ document.querySelectorAll('.watch_btn').forEach(btn => {
         try {
             const res = await fetch(`/watchlist/${coinId}`, { method: 'POST' });
             const data = await res.json();
-            if (!data.ok) return;
+            if (!data.ok) {
+                btn.disabled = false;
+                return;
+            }
 
             btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 16 16"><path d="M3 8 L6.5 12 L13 4" stroke="currentColor" stroke-width="2.5" fill="none" stroke-linecap="round"/></svg>';
+
+            if (document.querySelector(`.watchlist_list .list_row[data-id="${coinId}"]`)) return;
 
             const row = document.createElement('div');
             row.className = 'list_row';
@@ -200,6 +214,7 @@ document.querySelectorAll('.watch_btn').forEach(btn => {
             `;
             document.querySelector('.watchlist_list').appendChild(row);
         } catch (err) {
+            btn.disabled = false;
             console.log('watchlist add failed', err);
         }
     });

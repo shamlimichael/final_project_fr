@@ -3,21 +3,28 @@ const Transaction = require('../models/transaction');
 const User = require('../models/user');
 
 const getTopUsers = async () => {
-    const users = await User.find().populate('inventory.coin');
-
-    const ranked = users.map(user => {
-        let holdingsValue = 0;
-        user.inventory.forEach(item => {
-            holdingsValue += item.amount * item.coin.price;
-        });
-        return {
-            username: user.username,
-            netWorth: user.balance + holdingsValue
-        };
-    });
-
-    ranked.sort((a, b) => b.netWorth - a.netWorth);
-    return ranked.slice(0, 10);
+    return await User.aggregate([
+        { $unwind: { path: '$inventory', preserveNullAndEmptyArrays: true } },
+        { $lookup: {
+            from: 'coins',
+            localField: 'inventory.coin',
+            foreignField: '_id',
+            as: 'coinData'
+        }},
+        { $unwind: { path: '$coinData', preserveNullAndEmptyArrays: true } },
+        { $group: {
+            _id: '$_id',
+            username: { $first: '$username' },
+            balance: { $first: '$balance' },
+            holdingsValue: { $sum: { $multiply: [
+                { $ifNull: ['$inventory.amount', 0] },
+                { $ifNull: ['$coinData.price', 0] }
+            ]}}
+        }},
+        { $addFields: { netWorth: { $add: ['$balance', '$holdingsValue'] } } },
+        { $sort: { netWorth: -1 } },
+        { $limit: 10 }
+    ]);
 };
 
 const main_index = async (req, res) => {

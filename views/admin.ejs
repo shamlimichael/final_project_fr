@@ -9,6 +9,11 @@
     </style>
 </head>
 <body>
+    <header class="top_bar">
+        <div class="top_left">
+            <span class="logo" id="logo_btn">Crypto Goats</span>
+        </div>
+    </header>
     <main class="dashboard_main" style="margin-top: 20px;">
         <h2 class="section_title">Manage Coins</h2>
 
@@ -45,5 +50,10 @@
             <% }) %>
         </div>
     </main>
+    <script>
+        document.getElementById('logo_btn').addEventListener('click', () => {
+            window.location.href = '/';
+        });
+    </script>
 </body>
 </html>
